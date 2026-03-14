@@ -73,3 +73,11 @@ button:hover {
     letter-spacing: 1px;
     min-height: 80px;
 }
+
+#inventory p {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: space-between;
+    width: 300px;
+}

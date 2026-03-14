@@ -16,10 +16,11 @@ function renderInventory() {
     } else {
         let html = "";
         player.inventory.forEach(function(item) {
-            html += "<p>" + item 
-        + " <button onclick='useItem(\"" + item + "\")'>Użyj</button>"
-        + " <button onclick='equipItem(\"" + item + "\")'>Załóż</button>"
-        + "</p>";
+            if (item === "Mikstura HP") {
+                html += "<p>" + item + " <button onclick='useItem(\"" + item + "\")'>Użyj</button></p>";
+            } else {
+                html += "<p>" + item + " <button onclick='equipItem(\"" + item + "\")'>Załóż</button></p>";
+        }
         });
         inventory.innerHTML = html;
     }
