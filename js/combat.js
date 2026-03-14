@@ -5,6 +5,8 @@ const enemy = {
     attack: 5,
 }
 
+const lootTable = ["Miecz", "Tarcza", "Mikstura HP", "Amulet", "Sztylet"];
+
 function startCombat() {
     scene.innerHTML = 
         "<h1>Walka z Goblinem</h1>" 
@@ -23,14 +25,17 @@ function attack(){
     enemy.hp -= player.attack;
     player.hp -= enemy.attack;
     if (enemy.hp <= 0) {
+        dropLoot();
         loadScene("explore");
         setupButtons();
+        renderInventory();
         return;
     }
     if (player.hp <= 0) {
         alert("Zginąłeś!");
         loadScene("explore");
         setupButtons();
+        renderInventory();
         return;
     }
     startCombat();
@@ -39,4 +44,10 @@ function attack(){
 function initCombat() {
     enemy.hp = enemy.maxHp;
     startCombat();
+}
+
+function dropLoot() {
+    const lootItem = lootTable[Math.floor(Math.random() * lootTable.length)];
+    addItem(lootItem);
+    alert("Zdobyłeś: " + lootItem);
 }
