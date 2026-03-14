@@ -26,6 +26,7 @@ function setupButtons() {
         btnExplore.onclick = function() {
             loadScene("explore");
             setupButtons();
+            renderInventory();
         }
     }
     if (btnBuy1) {
