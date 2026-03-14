@@ -29,3 +29,4 @@ function setupButtons() {
 
 loadScene("explore");
 setupButtons();
+renderInventory();
