@@ -1,9 +1,11 @@
-const enemy = {
-    name: "Goblin",
-    hp: 30,
-    maxHp: 30,
-    attack: 5,
-}
+const enemies = [
+    { name: "Goblin", hp: 30, maxHp: 30, attack: 5 },
+    { name: "Szkielet", hp: 50, maxHp: 50, attack: 8 },
+    { name: "Troll", hp: 80, maxHp: 80, attack: 12 },
+    { name: "Demon", hp: 120, maxHp: 120, attack: 18 },
+]
+
+let enemy = {};
 
 const lootTable = ["Broń", "Zbroja",
      "Mikstura HP", "Amulet Mocy",
@@ -12,7 +14,7 @@ const lootTable = ["Broń", "Zbroja",
 
 function startCombat() {
     scene.innerHTML = 
-        "<h1>Walka z Goblinem</h1>" 
+        "<h1>Przeciwnik: " + enemy.name + "</h1>" 
         + "<p>HP wroga: " + enemy.hp + "/" + enemy.maxHp + "</p>"
         + "<p>HP gracza: " + player.hp + "/" + player.maxHp + "</p>"
         + "<button id='btn-attack'>Atakuj</button>"
@@ -22,8 +24,16 @@ function startCombat() {
         btnAttack.onclick = function() {
             attack();
         }
+    const btnEscape = document.getElementById('btn-explore');
+    if (btnEscape) {
+        btnEscape.onclick = function() {
+            loadScene("explore");
+            setupButtons();
+        }
     }
 }
+    }
+
 function attack(){
     enemy.hp -= player.attack + player.skills.attackBonus;
     player.hp -= enemy.attack;
@@ -35,7 +45,9 @@ function attack(){
         return;
     }
     if (player.hp <= 0) {
+        if (player.hp < 0) player.hp = 0;
         alert("Zginąłeś!");
+        player.hp = player.maxHp;
         loadScene("explore");
         setupButtons();
         renderInventory();
@@ -45,7 +57,8 @@ function attack(){
 }
 
 function initCombat() {
-    enemy.hp = enemy.maxHp;
+    const randomEnemy = enemies[Math.floor(Math.random() * enemies.length)];
+    enemy = { ...randomEnemy };
     startCombat();
 }
 
