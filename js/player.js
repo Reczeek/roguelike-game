@@ -5,5 +5,11 @@ const player = {
     attack: 10,
     defense: 5,
     gold: 50,
-    inventory: []
+    inventory: [],
+    souls: 0,
+    skills: {
+        attackBonus: 0,
+        hpBonus: 0,
+        goldBonus: 0,
+    }
 }

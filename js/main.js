@@ -9,7 +9,11 @@ function setupButtons() {
     const btnExplore = document.getElementById('btn-explore');
     const btnBuy1 = document.getElementById('btn-buy-1');
     const btnBuy2 = document.getElementById('btn-buy-2');
-    const btnBuy3 = document.getElementById('btn-buy-3');  
+    const btnBuy3 = document.getElementById('btn-buy-3');
+    const btnskills = document.getElementById('btn-skills');
+    const btnskillsatk = document.getElementById('btn-skill-atk');
+    const btnskillshp = document.getElementById('btn-skill-hp');
+    const btnskillsgold = document.getElementById('btn-skill-gold');
     if (btnCombat) {
         btnCombat.onclick = function() {
             loadScene("combat");
@@ -68,8 +72,47 @@ function setupButtons() {
             }
         }
     }
+    if (btnskills) {
+        btnskills.onclick = function() {
+            loadScene("skills");
+            setupButtons();
+        }
+    }
+    if (btnskillsatk) {
+        btnskillsatk.onclick = function() {
+            if (player.souls >= 3) {
+                player.souls -= 3;
+                player.skills.attackBonus += 2;
+                loadScene("skills");
+                setupButtons();
+            }
+        }
+    }
+    if (btnskillshp) {
+        btnskillshp.onclick = function() {
+            if (player.souls >= 3) {
+                player.souls -= 3;
+                player.skills.hpBonus += 20;
+                player.maxHp += 20;
+                player.hp += 20;
+                loadScene("skills");
+                setupButtons();
+            }
+        }
+    }
+    if (btnskillsgold) {
+        btnskillsgold.onclick = function() {
+            if (player.souls >= 3) {
+                player.souls -= 3;
+                player.skills.goldBonus += 5;
+                loadScene("skills");
+                setupButtons();
+            }
+        }
+    }
 
 }
+
 
 loadScene("explore");
 setupButtons();

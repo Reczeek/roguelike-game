@@ -53,4 +53,14 @@ function dropLoot() {
     const goldLoot = Math.floor(Math.random() * 16) + 5;
     player.gold += goldLoot;
     alert("Zdobyłeś: " + goldLoot + " złota!");
+    const soulLoot = Math.floor(Math.random() * 5) + 1;
+    player.souls += soulLoot;
+    if (soulLoot === 1) {
+        alert("Zdobyłeś " + soulLoot + " duszę!");
+    }
+    if (soulLoot > 1 && soulLoot < 5) {
+        alert("Zdobyłeś " + soulLoot + " dusze!");
+    } else if (soulLoot === 5) {
+        alert("Zdobyłeś " + soulLoot + " dusz!");
+    }
 }

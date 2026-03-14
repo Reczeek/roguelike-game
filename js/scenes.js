@@ -6,6 +6,7 @@ const scenes = {
             + "<button id='btn-combat'>Walka</button>" 
             + "<button id='btn-shop'>Sklep</button>" 
             + "<button id='btn-explore'>Eksploracja</button>"
+            + "<button id='btn-skills'>Umiejętności</button>"
             + "<div id='inventory'></div>";
     },
 
@@ -22,6 +23,15 @@ const scenes = {
     
     combat: function() {
         initCombat();
+    },
+    
+    skills: function() {
+        scene.innerHTML =
+        "<h1>Drzewko Umiejętności</h1>"
+        + "<p>Dusze: " + player.souls + "</p>"
+        + "<button id='btn-skill-atk'>Atak +2 (3 dusze)</button>"
+        + "<button id='btn-skill-hp'>Max HP +20 (3 dusze)</button>"
+        + "<button id='btn-skill-gold'>Bonus złoto +5 (3 dusze)</button>"
+        + "<button id='btn-explore'>Wróć</button>";
     }
-
 }
