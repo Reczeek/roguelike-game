@@ -7,15 +7,25 @@ function setupButtons() {
     const btnCombat = document.getElementById('btn-combat');
     const btnShop = document.getElementById('btn-shop');
     const btnExplore = document.getElementById('btn-explore');
-    btnCombat.onclick = function() {
-        loadScene("combat");
+    if (btnCombat) {
+        btnCombat.onclick = function() {
+            loadScene("combat");
+            setupButtons();
+        }
     }
-    btnShop.onclick = function() {
-        loadScene("shop");
+    if (btnShop) {
+        btnShop.onclick = function() {
+            loadScene("shop");
+            setupButtons();
+        }
     }
-    btnExplore.onclick = function() {
-        loadScene("explore");
+    if (btnExplore) {
+        btnExplore.onclick = function() {
+            loadScene("explore");
+            setupButtons();
+        }
     }
+    const btnExploreBack = document.getElementById('btn-explore');
 }
 
 loadScene("explore");
