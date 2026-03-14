@@ -79,4 +79,8 @@ function dropLoot() {
     } else if (soulLoot === 5) {
         alert("Zdobyłeś " + soulLoot + " dusz!");
     }
+    const expLoot = Math.floor(Math.random() * 50) + 1;
+    player.exp += expLoot;
+    alert("Zdobyłeś " + expLoot + " doświadczenia!");
+    checkLevelUp();
 }
