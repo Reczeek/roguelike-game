@@ -1,5 +1,5 @@
 const player = {
-    name: "Zniewolony",
+    name: "Gracz",
     hp: 100,
     maxHp: 100,
     attack: 10,
