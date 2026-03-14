@@ -50,4 +50,7 @@ function dropLoot() {
     const lootItem = lootTable[Math.floor(Math.random() * lootTable.length)];
     addItem(lootItem);
     alert("Zdobyłeś: " + lootItem);
+    const goldLoot = Math.floor(Math.random() * 16) + 5;
+    player.gold += goldLoot;
+    alert("Zdobyłeś: " + goldLoot + " złota!");
 }
