@@ -25,7 +25,6 @@ function setupButtons() {
             setupButtons();
         }
     }
-    const btnExploreBack = document.getElementById('btn-explore');
 }
 
 loadScene("explore");

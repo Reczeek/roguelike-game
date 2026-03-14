@@ -15,7 +15,7 @@ const scenes = {
     },
     
     combat: function() {
-        startCombat();
+        initCombat();
     }
 
 }

@@ -24,12 +24,19 @@ function attack(){
     player.hp -= enemy.attack;
     if (enemy.hp <= 0) {
         loadScene("explore");
+        setupButtons();
         return;
     }
     if (player.hp <= 0) {
         alert("Zginąłeś!");
         loadScene("explore");
+        setupButtons();
         return;
     }
+    startCombat();
+}
+
+function initCombat() {
+    enemy.hp = enemy.maxHp;
     startCombat();
 }
