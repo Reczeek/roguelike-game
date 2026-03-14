@@ -16,8 +16,8 @@ const player = {
         helmet: null,
         armor: null,
         weapon: null,
-        ring1: null,
-        ring2: null,
+        ringAttack: null,
+        ringDefense: null,
         accessory: null
     }
     

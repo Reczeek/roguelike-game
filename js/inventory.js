@@ -10,12 +10,16 @@ function showInventory() {
 
 function renderInventory() {
     const inventory = document.getElementById("inventory");
+    if (!inventory) return;
     if (player.inventory.length === 0) {
         inventory.innerHTML = "<p>Brak przedmiotów</p>";
     } else {
         let html = "";
         player.inventory.forEach(function(item) {
-            html += "<p>" + item + " <button onclick='useItem(\"" + item + "\")'>Użyj</button></p>";
+            html += "<p>" + item 
+        + " <button onclick='useItem(\"" + item + "\")'>Użyj</button>"
+        + " <button onclick='equipItem(\"" + item + "\")'>Załóż</button>"
+        + "</p>";
         });
         inventory.innerHTML = html;
     }
@@ -34,4 +38,50 @@ function useItem(itemName) {
         renderInventory();
     }
 
+}
+
+function equipItem(itemName) {
+    if (itemName === "Broń") {
+        player.equipment.weapon = "Broń";
+        const index = player.inventory.indexOf(itemName);
+        player.inventory.splice(index, 1);
+        loadScene("inventory");
+        
+    }   
+    if (itemName === "Zbroja") {
+        player.equipment.armor = "Zbroja";
+        const index = player.inventory.indexOf(itemName);
+        player.inventory.splice(index, 1);
+        loadScene("inventory");
+        
+    }
+    if (itemName === "Pierścień Ataku") {
+        player.equipment.ringAttack = "Pierścień Ataku";
+        const index = player.inventory.indexOf(itemName);
+        player.inventory.splice(index, 1);
+        loadScene("inventory");
+        
+    }
+    if (itemName === "Pierścień Obrony") {
+        player.equipment.ringDefense = "Pierścień Obrony";
+        const index = player.inventory.indexOf(itemName);
+        player.inventory.splice(index, 1);
+        loadScene("inventory");
+        
+    }
+    if (itemName === "Amulet Mocy") {
+        player.equipment.accessory = "Amulet Mocy";
+        const index = player.inventory.indexOf(itemName);
+        player.inventory.splice(index, 1);
+        loadScene("inventory");
+        
+    }
+    if (itemName === "Hełm") {
+        player.equipment.helmet = "Hełm";
+        const index = player.inventory.indexOf(itemName);
+        player.inventory.splice(index, 1);
+        loadScene("inventory");
+        
+    }
+    console.log(player.equipment)
 }

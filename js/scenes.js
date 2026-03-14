@@ -14,8 +14,8 @@ const scenes = {
             "<h1>Sklep</h1>" 
             + "<p>Złoto: " + player.gold + "</p>"
             + "<button id='btn-buy-1'>Kup Miksturę HP (10g)</button>"
-            + "<button id='btn-buy-2'>Kup Miecz (20g)</button>"
-            + "<button id='btn-buy-3'>Kup Tarcza (15g)</button>"
+            + "<button id='btn-buy-2'>Kup Broń (20g)</button>"
+            + "<button id='btn-buy-3'>Kup Zbroję (15g)</button>"
             + "<p id='msg'></p>"
             + "<button id='btn-explore'>Powrót</button>";
     },
@@ -35,17 +35,17 @@ const scenes = {
     },
 
     inventory: function() {
-    scene.innerHTML = 
-        "<h1>Ekwipunek</h1>"
-        + "<div id='slots'>"
-        + "<div class='slot' id='slot-helmet'>🪖 Hełm<br>" + (player.equipment.helmet || "pusty") + "</div>"
-        + "<div class='slot' id='slot-armor'>🛡️ Zbroja<br>" + (player.equipment.armor || "pusty") + "</div>"
-        + "<div class='slot' id='slot-weapon'>⚔️ Broń<br>" + (player.equipment.weapon || "pusty") + "</div>"
-        + "<div class='slot' id='slot-ring1'>💍 Pierścień 1<br>" + (player.equipment.ring1 || "pusty") + "</div>"
-        + "<div class='slot' id='slot-ring2'>💍 Pierścień 2<br>" + (player.equipment.ring2 || "pusty") + "</div>"
-        + "<div class='slot' id='slot-accessory'>🔮 Akcesorium<br>" + (player.equipment.accessory || "pusty") + "</div>"
-        + "</div>"
-        + "<div id='inventory'></div>"
-        + "<button id='btn-explore'>Wróć</button>";
+        scene.innerHTML = 
+            "<h1>Ekwipunek</h1>"
+            + "<div id='slots'>"
+            + "<div class='slot' id='slot-helmet'>🪖 Hełm<br>" + (player.equipment.helmet || "pusty") + "</div>"
+            + "<div class='slot' id='slot-armor'>🛡️ Zbroja<br>" + (player.equipment.armor || "pusty") + "</div>"
+            + "<div class='slot' id='slot-weapon'>⚔️ Broń<br>" + (player.equipment.weapon || "pusty") + "</div>"
+            + "<div class='slot' id='slot-ringAttack'>💍 Pierścień Ataku<br>" + (player.equipment.ringAttack || "pusty") + "</div>"
+            + "<div class='slot' id='slot-ringDefense'>💍 Pierścień Obrony<br>" + (player.equipment.ringDefense || "pusty") + "</div>"
+            + "<div class='slot' id='slot-accessory'>🔮 Akcesorium<br>" + (player.equipment.accessory || "pusty") + "</div>"
+            + "</div>"
+            + "<div id='inventory'></div>"
+            + "<button id='btn-explore'>Wróć</button>";
 }
 }

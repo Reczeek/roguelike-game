@@ -51,10 +51,10 @@ function setupButtons() {
         btnBuy2.onclick = function() {
             if (player.gold >= 20) {
                 player.gold -= 20;
-                addItem("Miecz");
+                addItem("Broń");
                 loadScene("shop");
                 setupButtons();
-                document.getElementById("msg").innerHTML = "Kupiłeś: Miecz!";
+                document.getElementById("msg").innerHTML = "Kupiłeś: Broń!";
             } else {
                 alert("Nie masz wystarczająco złota!");
             }
@@ -64,10 +64,10 @@ function setupButtons() {
         btnBuy3.onclick = function() {
             if (player.gold >= 15) {
                 player.gold -= 15;
-                addItem("Tarcza");
+                addItem("Zbroja");
                 loadScene("shop");
                 setupButtons();
-                document.getElementById("msg").innerHTML = "Kupiłeś: Tarcza!";
+                document.getElementById("msg").innerHTML = "Kupiłeś: Zbroja!";
             } else {
                 alert("Nie masz wystarczająco złota!");
             }

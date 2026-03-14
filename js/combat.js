@@ -5,7 +5,10 @@ const enemy = {
     attack: 5,
 }
 
-const lootTable = ["Miecz", "Tarcza", "Mikstura HP", "Amulet", "Sztylet"];
+const lootTable = ["Broń", "Zbroja",
+     "Mikstura HP", "Amulet Mocy",
+      "Hełm", "Pierścień Ataku",
+       "Pierścień Obrony"];
 
 function startCombat() {
     scene.innerHTML = 

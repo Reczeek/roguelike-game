@@ -55,3 +55,21 @@ button:hover {
     color: #fff;
     box-shadow: 0 0 10px #8b0000;
 }
+
+#slots {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.slot {
+    background-color: #1a0000;
+    border: 1px solid #8b0000;
+    padding: 16px;
+    text-align: center;
+    font-size: 14px;
+    letter-spacing: 1px;
+    min-height: 80px;
+}
