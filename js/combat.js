@@ -22,7 +22,7 @@ function startCombat() {
     }
 }
 function attack(){
-    enemy.hp -= player.attack;
+    enemy.hp -= player.attack + player.skills.attackBonus;
     player.hp -= enemy.attack;
     if (enemy.hp <= 0) {
         dropLoot();
@@ -50,7 +50,7 @@ function dropLoot() {
     const lootItem = lootTable[Math.floor(Math.random() * lootTable.length)];
     addItem(lootItem);
     alert("Zdobyłeś: " + lootItem);
-    const goldLoot = Math.floor(Math.random() * 16) + 5;
+    const goldLoot = (Math.floor(Math.random() * 16) + 5) + player.skills.goldBonus;
     player.gold += goldLoot;
     alert("Zdobyłeś: " + goldLoot + " złota!");
     const soulLoot = Math.floor(Math.random() * 5) + 1;
