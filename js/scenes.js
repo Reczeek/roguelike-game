@@ -5,9 +5,8 @@ const scenes = {
             + "<div id='stats'>HP: " + player.hp + "/" + player.maxHp + " | Złoto: " + player.gold + "</div>"
             + "<button id='btn-combat'>Walka</button>" 
             + "<button id='btn-shop'>Sklep</button>" 
-            + "<button id='btn-explore'>Eksploracja</button>"
             + "<button id='btn-skills'>Umiejętności</button>"
-            + "<div id='inventory'></div>";
+            + "<button id='btn-inventory'>Ekwipunek</button>";
     },
 
     shop: function() {
@@ -33,5 +32,20 @@ const scenes = {
         + "<button id='btn-skill-hp'>Max HP +20 (3 dusze)</button>"
         + "<button id='btn-skill-gold'>Bonus złoto +5 (3 dusze)</button>"
         + "<button id='btn-explore'>Wróć</button>";
-    }
+    },
+
+    inventory: function() {
+    scene.innerHTML = 
+        "<h1>Ekwipunek</h1>"
+        + "<div id='slots'>"
+        + "<div class='slot' id='slot-helmet'>🪖 Hełm<br>" + (player.equipment.helmet || "pusty") + "</div>"
+        + "<div class='slot' id='slot-armor'>🛡️ Zbroja<br>" + (player.equipment.armor || "pusty") + "</div>"
+        + "<div class='slot' id='slot-weapon'>⚔️ Broń<br>" + (player.equipment.weapon || "pusty") + "</div>"
+        + "<div class='slot' id='slot-ring1'>💍 Pierścień 1<br>" + (player.equipment.ring1 || "pusty") + "</div>"
+        + "<div class='slot' id='slot-ring2'>💍 Pierścień 2<br>" + (player.equipment.ring2 || "pusty") + "</div>"
+        + "<div class='slot' id='slot-accessory'>🔮 Akcesorium<br>" + (player.equipment.accessory || "pusty") + "</div>"
+        + "</div>"
+        + "<div id='inventory'></div>"
+        + "<button id='btn-explore'>Wróć</button>";
+}
 }

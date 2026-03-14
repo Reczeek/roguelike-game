@@ -11,5 +11,14 @@ const player = {
         attackBonus: 0,
         hpBonus: 0,
         goldBonus: 0,
+    },    
+    equipment: {
+        helmet: null,
+        armor: null,
+        weapon: null,
+        ring1: null,
+        ring2: null,
+        accessory: null
     }
+    
 }

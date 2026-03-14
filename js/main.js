@@ -14,6 +14,7 @@ function setupButtons() {
     const btnskillsatk = document.getElementById('btn-skill-atk');
     const btnskillshp = document.getElementById('btn-skill-hp');
     const btnskillsgold = document.getElementById('btn-skill-gold');
+    const btnInventory = document.getElementById('btn-inventory');
     if (btnCombat) {
         btnCombat.onclick = function() {
             loadScene("combat");
@@ -111,9 +112,16 @@ function setupButtons() {
         }
     }
 
+    if (btnInventory) {
+        btnInventory.onclick = function() {
+            loadScene("inventory");
+            setupButtons();
+            renderInventory();
+        }
+    }
+
 }
 
 
 loadScene("explore");
 setupButtons();
-renderInventory();
