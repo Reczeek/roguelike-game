@@ -37,8 +37,22 @@ function startCombat() {
     }
 
 function attack(){
-    enemy.hp -= player.attack + player.skills.attackBonus;
-    player.hp -= enemy.attack;
+    const attackBonus = getEquipmentBonus("attack");
+    enemy.hp -= player.attack + player.skills.attackBonus + attackBonus;
+    const critChance = getEquipmentBonus("crit");
+    if (Math.random() * 100 < critChance) {
+        enemy.hp -= player.attack;
+        notify("⚔️ Krytyczne trafienie!");
+    }
+    const dodgeChance = getEquipmentBonus("dodge");
+    console.log("crit chance:", critChance)
+    console.log("dodge chance:", dodgeChance)
+    if (Math.random() * 100 < dodgeChance) {
+        notify("💨 Uniknąłeś ataku!");
+    } else {
+        player.hp -= enemy.attack;
+        if (player.hp < 0) player.hp = 0;
+    }
     if (player.hp <= 0) {
         if (player.hp < 0) player.hp = 0;
         notify("Zginąłeś!");
@@ -79,13 +93,6 @@ function initCombat() {
 }
 
 function dropLoot() {
-    const chance = player.floorCount === 0 ? 50 : 20;
-    if (Math.random() * 100 < chance) {
-        const lootItem = { ...itemList[Math.floor(Math.random() * itemList.length)], upgradeLevel: 0 };
-        console.log(lootItem)
-        addItem(lootItem);
-        notify("Zdobyłeś: " + lootItem.name);
-    }
     const goldLoot = (Math.floor(Math.random() * 16) + 5) + player.skills.goldBonus;
     player.gold += goldLoot;
     notify("Zdobyłeś: " + goldLoot + " złota!");

@@ -26,3 +26,30 @@ function equipItem(index) {
     renderInventory();
     setupButtons();
 }
+
+function upgradeItem(slot) {
+    const item = player.equipment[slot];
+    const cost = (item.upgradeLevel + 1) * 20;
+    if (player.gold >= cost) {
+        player.gold -= cost;
+        item.upgradeLevel++;
+        loadScene("upgrade");
+        setupButtons();
+        document.getElementById("msg").innerHTML = "Ulepszyłeś: " + item.name + " do poziomu " + item.upgradeLevel + "!";
+    } else {
+        notify("Nie masz wystarczająco złota!");
+    }
+    loadScene("upgrade");
+    setupButtons();
+}
+
+function getEquipmentBonus(bonusType) {
+    let total = 0;
+    for (const slot in player.equipment) {
+        const item = player.equipment[slot];
+        if (item && item.bonuses[bonusType]) {
+            total += item.bonuses[bonusType] + (item.upgradeLevel * 0.5);
+        }
+    }
+    return total;
+}

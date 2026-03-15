@@ -26,7 +26,7 @@ function setupButtons() {
     }
     if (btnShop) {
         btnShop.onclick = function() {
-            loadScene("shop");
+            loadScene("upgrade");
             setupButtons();
         }
     }
@@ -42,7 +42,7 @@ function setupButtons() {
             if (player.gold >= 10) {
                 player.gold -= 10;
                 addItem("Mikstura HP");
-                loadScene("shop");
+                loadScene("upgrade");
                 setupButtons();
                 document.getElementById("msg").innerHTML = "Kupiłeś: Mikstura HP!";
             } else {
@@ -55,7 +55,7 @@ function setupButtons() {
             if (player.gold >= 20) {
                 player.gold -= 20;
                 addItem("Broń");
-                loadScene("shop");
+                loadScene("upgrade");
                 setupButtons();
                 document.getElementById("msg").innerHTML = "Kupiłeś: Broń!";
             } else {
@@ -68,7 +68,7 @@ function setupButtons() {
             if (player.gold >= 15) {
                 player.gold -= 15;
                 addItem("Zbroja");
-                loadScene("shop");
+                loadScene("upgrade");
                 setupButtons();
                 document.getElementById("msg").innerHTML = "Kupiłeś: Zbroja!";
             } else {

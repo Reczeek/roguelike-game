@@ -13,12 +13,12 @@ const player = {
         goldBonus: 0,
     },    
     equipment: {
-        helmet: null,
-        armor: null,
-        weapon: null,
-        ringAttack: null,
-        ringDefense: null,
-        accessory: null
+        helmet: {timeAttack: 1500},
+        armor: {dodgeChance: 1},
+        weapon: {critChance: 1},
+        ringAttack: {doubleAttackChance: 1},
+        ringDefense: {counterChance: 1},
+        accessory: {regen: 10}
     },
     level: 1,
     exp: 0,
