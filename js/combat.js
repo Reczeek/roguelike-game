@@ -5,6 +5,12 @@ const enemies = [
     { name: "Demon", hp: 120, maxHp: 120, attack: 18 },
 ]
 
+const bosses = [
+    { name: "Król Goblinów", hp: 200, maxHp: 200, attack: 25 },
+    { name: "Lich", hp: 350, maxHp: 350, attack: 40 },
+    { name: "Smok", hp: 500, maxHp: 500, attack: 60 },
+]
+
 let enemy = {};
 
 const lootTable = ["Broń", "Zbroja",
@@ -39,6 +45,7 @@ function attack(){
     player.hp -= enemy.attack;
     if (enemy.hp <= 0) {
         dropLoot();
+        player.floorCount++;
         loadScene("explore");
         setupButtons();
         renderInventory();
@@ -47,6 +54,7 @@ function attack(){
     if (player.hp <= 0) {
         if (player.hp < 0) player.hp = 0;
         notify("Zginąłeś!");
+        player.floorCount = 1;
         player.hp = player.maxHp;
         player.gold = Math.floor(player.gold * 0.7)
         player.xp = Math.floor(player.xp * 0.8)
@@ -59,8 +67,17 @@ function attack(){
 }
 
 function initCombat() {
-    const randomEnemy = enemies[Math.floor(Math.random() * enemies.length)];
-    enemy = { ...randomEnemy };
+    if (player.floorCount  === 8) {
+        const bossIndex = Math.min(player.floor - 1, bosses.length - 1);
+        const bossTemplate = bosses[bossIndex];
+        enemy = { ...bossTemplate };
+        notify("Boss: " + enemy.name + " pojawił się!");
+        player.floorCount = 0;
+        player.floor++;
+    } else {
+        const randomEnemy = enemies[Math.floor(Math.random() * enemies.length)];
+        enemy = { ...randomEnemy };
+    }
     startCombat();
 }
 

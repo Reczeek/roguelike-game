@@ -6,7 +6,10 @@ const scenes = {
                 + "HP: " + player.hp + "/" + player.maxHp 
                 + " | Poziom: " + player.level 
                 + " | XP: " + player.exp + "/" + player.expToNextLevel
-                + " | Złoto: " + player.gold 
+                + " | Złoto: " + player.gold
+                + " | Dusze: " + player.souls
+                + " | Piętro: " + player.floor
+                + " | Pokój: " + player.floorCount + "/8"
                 + "</div>"
             + "<button id='btn-combat'>Walka</button>" 
             + "<button id='btn-shop'>Sklep</button>" 

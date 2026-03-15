@@ -23,7 +23,9 @@ const player = {
     level: 1,
     exp: 0,
     expToNextLevel: 100,
-    
+    floorCount: 1,
+    floor: 1,
+
 }
 
 function checkLevelUp() {
