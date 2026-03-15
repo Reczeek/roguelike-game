@@ -39,15 +39,6 @@ function startCombat() {
 function attack(){
     enemy.hp -= player.attack + player.skills.attackBonus;
     player.hp -= enemy.attack;
-    if (player.hp < 0) player.hp = 0;
-    if (enemy.hp <= 0) {
-        dropLoot();
-        player.floorCount++;
-        loadScene("explore");
-        setupButtons();
-        renderInventory();
-        return;
-    }
     if (player.hp <= 0) {
         if (player.hp < 0) player.hp = 0;
         notify("Zginąłeś!");
@@ -56,6 +47,14 @@ function attack(){
         player.gold = Math.floor(player.gold * 0.7)
         player.xp = Math.floor(player.xp * 0.8)
         player.hp = player.maxHp
+        loadScene("explore");
+        setupButtons();
+        renderInventory();
+        return;
+    }
+    if (enemy.hp <= 0) {
+        dropLoot();
+        player.floorCount++;
         loadScene("explore");
         setupButtons();
         renderInventory();

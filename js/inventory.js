@@ -24,4 +24,5 @@ function equipItem(index) {
     player.inventory.splice(index, 1);
     loadScene("inventory");
     renderInventory();
+    setupButtons();
 }

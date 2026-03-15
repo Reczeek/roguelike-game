@@ -17,7 +17,15 @@ const scenes = {
             + "<button id='btn-inventory'>Ekwipunek</button>"
             + "<button id='btn-save'>Zapisz</button>";
     },
-
+    shop: function() {
+    scene.innerHTML = 
+        "<h1>Sklep</h1>" 
+        + "<p>Złoto: " + player.gold + "</p>"
+        + "<button id='btn-buy-1'>Kup Broń (20g)</button>"
+        + "<button id='btn-buy-2'>Kup Zbroję (15g)</button>"
+        + "<p id='msg'></p>"
+        + "<button id='btn-explore'>Powrót</button>";
+    },
 
     
     combat: function() {
