@@ -1,3 +1,5 @@
+loadGame();
+
 const scene = document.getElementById('scene');
 function loadScene(nazwa) {
     scenes[nazwa]();
@@ -15,6 +17,7 @@ function setupButtons() {
     const btnskillshp = document.getElementById('btn-skill-hp');
     const btnskillsgold = document.getElementById('btn-skill-gold');
     const btnInventory = document.getElementById('btn-inventory');
+    const btnSave = document.getElementById('btn-save');
     if (btnCombat) {
         btnCombat.onclick = function() {
             loadScene("combat");
@@ -43,7 +46,7 @@ function setupButtons() {
                 setupButtons();
                 document.getElementById("msg").innerHTML = "Kupiłeś: Mikstura HP!";
             } else {
-                alert("Nie masz wystarczająco złota!");
+                notify("Nie masz wystarczająco złota!");
             }
         }
     }
@@ -56,7 +59,7 @@ function setupButtons() {
                 setupButtons();
                 document.getElementById("msg").innerHTML = "Kupiłeś: Broń!";
             } else {
-                alert("Nie masz wystarczająco złota!");
+                notify("Nie masz wystarczająco złota!");
             }
         }
     }
@@ -69,7 +72,7 @@ function setupButtons() {
                 setupButtons();
                 document.getElementById("msg").innerHTML = "Kupiłeś: Zbroja!";
             } else {
-                alert("Nie masz wystarczająco złota!");
+                notify("Nie masz wystarczająco złota!");
             }
         }
     }
@@ -117,6 +120,13 @@ function setupButtons() {
             loadScene("inventory");
             setupButtons();
             renderInventory();
+        }
+    }
+
+    if (btnSave) {
+        btnSave.onclick = function() {
+            saveGame();
+            notify("Gra została zapisana!");
         }
     }
 

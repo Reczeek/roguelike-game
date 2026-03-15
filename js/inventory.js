@@ -47,6 +47,7 @@ function equipItem(itemName) {
         const index = player.inventory.indexOf(itemName);
         player.inventory.splice(index, 1);
         loadScene("inventory");
+        renderInventory();
         
     }   
     if (itemName === "Zbroja") {
@@ -54,35 +55,35 @@ function equipItem(itemName) {
         const index = player.inventory.indexOf(itemName);
         player.inventory.splice(index, 1);
         loadScene("inventory");
-        
+        renderInventory();
     }
     if (itemName === "Pierścień Ataku") {
         player.equipment.ringAttack = "Pierścień Ataku";
         const index = player.inventory.indexOf(itemName);
         player.inventory.splice(index, 1);
         loadScene("inventory");
-        
+        renderInventory();
     }
     if (itemName === "Pierścień Obrony") {
         player.equipment.ringDefense = "Pierścień Obrony";
         const index = player.inventory.indexOf(itemName);
         player.inventory.splice(index, 1);
         loadScene("inventory");
-        
+        renderInventory();
     }
     if (itemName === "Amulet Mocy") {
         player.equipment.accessory = "Amulet Mocy";
         const index = player.inventory.indexOf(itemName);
         player.inventory.splice(index, 1);
         loadScene("inventory");
-        
+        renderInventory();
     }
     if (itemName === "Hełm") {
         player.equipment.helmet = "Hełm";
         const index = player.inventory.indexOf(itemName);
         player.inventory.splice(index, 1);
         loadScene("inventory");
-        
+        renderInventory();
     }
     console.log(player.equipment)
 }

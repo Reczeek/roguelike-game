@@ -11,7 +11,8 @@ const scenes = {
             + "<button id='btn-combat'>Walka</button>" 
             + "<button id='btn-shop'>Sklep</button>" 
             + "<button id='btn-skills'>Umiejętności</button>"
-            + "<button id='btn-inventory'>Ekwipunek</button>";
+            + "<button id='btn-inventory'>Ekwipunek</button>"
+            + "<button id='btn-save'>Zapisz</button>";
     },
 
     shop: function() {

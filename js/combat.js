@@ -46,8 +46,10 @@ function attack(){
     }
     if (player.hp <= 0) {
         if (player.hp < 0) player.hp = 0;
-        alert("Zginąłeś!");
+        notify("Zginąłeś!");
         player.hp = player.maxHp;
+        player.gold = Math.floor(player.gold * 0.7)
+        player.xp = Math.floor(player.xp * 0.8)
         loadScene("explore");
         setupButtons();
         renderInventory();
@@ -65,22 +67,22 @@ function initCombat() {
 function dropLoot() {
     const lootItem = lootTable[Math.floor(Math.random() * lootTable.length)];
     addItem(lootItem);
-    alert("Zdobyłeś: " + lootItem);
+    notify("Zdobyłeś: " + lootItem);
     const goldLoot = (Math.floor(Math.random() * 16) + 5) + player.skills.goldBonus;
     player.gold += goldLoot;
-    alert("Zdobyłeś: " + goldLoot + " złota!");
+    notify("Zdobyłeś: " + goldLoot + " złota!");
     const soulLoot = Math.floor(Math.random() * 5) + 1;
     player.souls += soulLoot;
     if (soulLoot === 1) {
-        alert("Zdobyłeś " + soulLoot + " duszę!");
+        notify("Zdobyłeś " + soulLoot + " duszę!");
     }
     if (soulLoot > 1 && soulLoot < 5) {
-        alert("Zdobyłeś " + soulLoot + " dusze!");
+        notify("Zdobyłeś " + soulLoot + " dusze!");
     } else if (soulLoot === 5) {
-        alert("Zdobyłeś " + soulLoot + " dusz!");
+        notify("Zdobyłeś " + soulLoot + " dusz!");
     }
     const expLoot = Math.floor(Math.random() * 50) + 1;
     player.exp += expLoot;
-    alert("Zdobyłeś " + expLoot + " doświadczenia!");
+    notify("Zdobyłeś " + expLoot + " doświadczenia!");
     checkLevelUp();
 }

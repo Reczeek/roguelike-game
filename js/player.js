@@ -34,6 +34,30 @@ function checkLevelUp() {
         player.maxHp += 20;
         player.hp = player.maxHp;
         player.attack += 3;
-        alert("Poziom " + player.level + "! Twoje statystyki wzrosły!");
+        notify("Poziom " + player.level + "! Twoje statystyki wzrosły!");
     }
+}
+
+function saveGame() {
+    localStorage.setItem("player", JSON.stringify(player));
+}
+
+function loadGame() {
+    const savedPlayer = localStorage.getItem("player");
+    if (savedPlayer) {
+        Object.assign(player, JSON.parse(savedPlayer));
+    }
+}
+
+function notify(text) {
+    console.log("notify wywołany:", text)
+    const container = document.getElementById("notifications");
+    if (!container) return;
+    const notif = document.createElement("div");
+    notif.classList.add("notif");
+    notif.innerHTML = text;
+    container.appendChild(notif);
+    setTimeout(function() {
+        notif.remove();
+    }, 5000);
 }
