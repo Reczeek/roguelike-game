@@ -26,6 +26,7 @@ function startCombat() {
         btnAttack.onclick = function() {
             attack();
         }
+    }
     const btnEscape = document.getElementById('btn-explore');
     if (btnEscape) {
         btnEscape.onclick = function() {
@@ -34,25 +35,39 @@ function startCombat() {
         }
     }
 }
+
+function enemyAttack() {
+    if ((Math.floor(Math.random() * 100) + 1) > player.equipment.ringDefense.counterChance) {
+        enemy.hp -= enemy.attack;
+    }
+    
+    
+    else if ((Math.floor(Math.random() * 100) + 1) > player.equipment.armor.dodgeChance) {
+        player.hp -= enemies.attack * 0.5;
     }
 
-function attack(){
-    const attackBonus = getEquipmentBonus("attack");
-    enemy.hp -= player.attack + player.skills.attackBonus + attackBonus;
-    const critChance = getEquipmentBonus("crit");
-    if (Math.random() * 100 < critChance) {
-        enemy.hp -= player.attack;
-        notify("⚔️ Krytyczne trafienie!");
-    }
-    const dodgeChance = getEquipmentBonus("dodge");
-    console.log("crit chance:", critChance)
-    console.log("dodge chance:", dodgeChance)
-    if (Math.random() * 100 < dodgeChance) {
-        notify("💨 Uniknąłeś ataku!");
-    } else {
+    else {
         player.hp -= enemy.attack;
-        if (player.hp < 0) player.hp = 0;
     }
+
+}
+
+function playerAttack() {
+    if ((Math.floor(Math.random() * 100) + 1) <= player.equipment.weapon.critChance) {
+        enemy.hp -= player.attack * 2.5;
+    }
+    else if ((Math.floor(Math.random() * 100) + 1) <= player.equipment.ringAttack.doubleAttackChance) {
+        enemy.hp -= player.attack * 2;
+    }
+    else {
+        enemy.hp -= player.attack;
+    }
+}
+
+function attack(){
+    enemyAttack();
+    playerAttack();
+
     if (player.hp <= 0) {
         if (player.hp < 0) player.hp = 0;
         notify("Zginąłeś!");

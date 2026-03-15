@@ -60,7 +60,6 @@ const scenes = {
             + "<div class='slot' id='slot-ringDefense'>💍 Pierścień Obrony<br>" + "</div>"
             + "<div class='slot' id='slot-accessory'>🔮 Akcesorium<br>" + "</div>"
             + "</div>"
-            + "<div id='inventory'></div>"
             + "<button id='btn-explore'>Wróć</button>";
 }
 }
