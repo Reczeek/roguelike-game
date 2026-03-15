@@ -13,10 +13,6 @@ const bosses = [
 
 let enemy = {};
 
-const lootTable = ["Broń", "Zbroja",
-     "Mikstura HP", "Amulet Mocy",
-      "Hełm", "Pierścień Ataku",
-       "Pierścień Obrony"];
 
 function startCombat() {
     scene.innerHTML = 
@@ -43,6 +39,7 @@ function startCombat() {
 function attack(){
     enemy.hp -= player.attack + player.skills.attackBonus;
     player.hp -= enemy.attack;
+    if (player.hp < 0) player.hp = 0;
     if (enemy.hp <= 0) {
         dropLoot();
         player.floorCount++;
@@ -58,6 +55,7 @@ function attack(){
         player.hp = player.maxHp;
         player.gold = Math.floor(player.gold * 0.7)
         player.xp = Math.floor(player.xp * 0.8)
+        player.hp = player.maxHp
         loadScene("explore");
         setupButtons();
         renderInventory();
@@ -82,9 +80,13 @@ function initCombat() {
 }
 
 function dropLoot() {
-    const lootItem = lootTable[Math.floor(Math.random() * lootTable.length)];
-    addItem(lootItem);
-    notify("Zdobyłeś: " + lootItem);
+    const chance = player.floorCount === 0 ? 50 : 20;
+    if (Math.random() * 100 < chance) {
+        const lootItem = { ...itemList[Math.floor(Math.random() * itemList.length)], upgradeLevel: 0 };
+        console.log(lootItem)
+        addItem(lootItem);
+        notify("Zdobyłeś: " + lootItem.name);
+    }
     const goldLoot = (Math.floor(Math.random() * 16) + 5) + player.skills.goldBonus;
     player.gold += goldLoot;
     notify("Zdobyłeś: " + goldLoot + " złota!");
