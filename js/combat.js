@@ -1,35 +1,34 @@
 const enemies = [
-    { name: "Goblin", hp: 30, maxHp: 30, attack: 5 },
-    { name: "Szkielet", hp: 50, maxHp: 50, attack: 8 },
-    { name: "Troll", hp: 80, maxHp: 80, attack: 12 },
-    { name: "Demon", hp: 120, maxHp: 120, attack: 18 },
+    { name: "Goblin", hp: 30, maxHp: 30, attack: 15, timeAttack: 1000 },
+    { name: "Szkielet", hp: 50, maxHp: 50, attack: 25, timeAttack: 1200 },
+    { name: "Troll", hp: 80, maxHp: 80, attack: 37, timeAttack: 1500 },
+    { name: "Demon", hp: 120, maxHp: 120, attack: 49, timeAttack: 1800 },
 ]
 
 const bosses = [
-    { name: "Król Goblinów", hp: 200, maxHp: 200, attack: 25 },
-    { name: "Lich", hp: 350, maxHp: 350, attack: 40 },
-    { name: "Smok", hp: 500, maxHp: 500, attack: 60 },
+    { name: "Król Goblinów", hp: 200, maxHp: 200, attack: 30, timeAttack: 1500 },
+    { name: "Lich", hp: 350, maxHp: 350, attack: 40, timeAttack: 2000 },
+    { name: "Smok", hp: 500, maxHp: 500, attack: 55, timeAttack: 2200 },
 ]
 
 let enemy = {};
-
+let enemyInterval = null;
+let playerInterval = null;
+let combatActive = false;
 
 function startCombat() {
     scene.innerHTML = 
         "<h1>Przeciwnik: " + enemy.name + "</h1>" 
         + "<p>HP wroga: " + enemy.hp + "/" + enemy.maxHp + "</p>"
         + "<p>HP gracza: " + player.hp + "/" + player.maxHp + "</p>"
-        + "<button id='btn-attack'>Atakuj</button>"
         + "<button id='btn-explore'>Uciekaj</button>";
-    const btnAttack = document.getElementById('btn-attack');
-    if (btnAttack) {
-        btnAttack.onclick = function() {
-            attack();
-        }
-    }
+
     const btnEscape = document.getElementById('btn-explore');
     if (btnEscape) {
         btnEscape.onclick = function() {
+            combatActive = false;
+            clearInterval(enemyInterval);
+            clearInterval(playerInterval);
             loadScene("explore");
             setupButtons();
         }
@@ -37,51 +36,61 @@ function startCombat() {
 }
 
 function enemyAttack() {
-    if ((Math.floor(Math.random() * 100) + 1) > player.equipment.ringDefense.counterChance) {
-        enemy.hp -= enemy.attack;
-    }
-    
-    
-    else if ((Math.floor(Math.random() * 100) + 1) > player.equipment.armor.dodgeChance) {
-        player.hp -= enemies.attack * 0.5;
-    }
+    if (!combatActive) return;
+    const counterChance = player.equipment.ringDefense ? player.equipment.ringDefense.counterChance : 0;
+    const dodgeChance = player.equipment.armor ? player.equipment.armor.dodgeChance : 0;
+    const roll = Math.floor(Math.random() * 100) + 1;
 
-    else {
+    if (roll <= counterChance) {
+        enemy.hp -= enemy.attack;
+    } else if (roll <= dodgeChance) {
+        player.hp -= enemy.attack * 0.5;
+    } else {
         player.hp -= enemy.attack;
     }
 
+    checkCombatEnd();
+    if (combatActive) startCombat();
 }
 
 function playerAttack() {
-    if ((Math.floor(Math.random() * 100) + 1) <= player.equipment.weapon.critChance) {
+    if (!combatActive) return;
+    const critChance = player.equipment.weapon ? player.equipment.weapon.critChance : 0;
+    const doubleChance = player.equipment.ringAttack ? player.equipment.ringAttack.doubleAttackChance : 0;
+    const roll = Math.floor(Math.random() * 100) + 1;
+
+    if (roll <= critChance) {
         enemy.hp -= player.attack * 2.5;
-    }
-    else if ((Math.floor(Math.random() * 100) + 1) <= player.equipment.ringAttack.doubleAttackChance) {
+    } else if (roll <= doubleChance) {
         enemy.hp -= player.attack * 2;
+    } else {
+        enemy.hp -= player.attack + player.skills.attackBonus;
     }
-    else {
-        enemy.hp -= player.attack;
-    }
+
+    checkCombatEnd();
+    if (combatActive) startCombat();
 }
 
-function attack(){
-    enemyAttack();
-    playerAttack();
-
+function checkCombatEnd() {
+    if (!combatActive) return;
     if (player.hp <= 0) {
+        combatActive = false;
+        clearInterval(enemyInterval);
+        clearInterval(playerInterval);
         if (player.hp < 0) player.hp = 0;
         notify("Zginąłeś!");
         player.floorCount = 1;
         player.hp = player.maxHp;
-        player.gold = Math.floor(player.gold * 0.7)
-        player.xp = Math.floor(player.xp * 0.8)
-        player.hp = player.maxHp
+        player.gold = Math.floor(player.gold * 0.7);
         loadScene("explore");
         setupButtons();
         renderInventory();
         return;
     }
     if (enemy.hp <= 0) {
+        combatActive = false;
+        clearInterval(enemyInterval);
+        clearInterval(playerInterval);
         dropLoot();
         player.floorCount++;
         loadScene("explore");
@@ -89,11 +98,14 @@ function attack(){
         renderInventory();
         return;
     }
-    startCombat();
 }
 
 function initCombat() {
-    if (player.floorCount  === 8) {
+    combatActive = false;
+    clearInterval(enemyInterval);
+    clearInterval(playerInterval);
+
+    if (player.floorCount === 8) {
         const bossIndex = Math.min(player.floor - 1, bosses.length - 1);
         const bossTemplate = bosses[bossIndex];
         enemy = { ...bossTemplate };
@@ -104,7 +116,18 @@ function initCombat() {
         const randomEnemy = enemies[Math.floor(Math.random() * enemies.length)];
         enemy = { ...randomEnemy };
     }
+
+    combatActive = true;
     startCombat();
+
+    enemyInterval = setInterval(function() {
+        enemyAttack();
+    }, enemy.timeAttack);
+
+    const helmetTime = player.equipment.helmet ? player.equipment.helmet.timeAttack : 1000;
+    playerInterval = setInterval(function() {
+        playerAttack();
+    }, helmetTime);
 }
 
 function dropLoot() {
@@ -115,10 +138,9 @@ function dropLoot() {
     player.souls += soulLoot;
     if (soulLoot === 1) {
         notify("Zdobyłeś " + soulLoot + " duszę!");
-    }
-    if (soulLoot > 1 && soulLoot < 5) {
+    } else if (soulLoot < 5) {
         notify("Zdobyłeś " + soulLoot + " dusze!");
-    } else if (soulLoot === 5) {
+    } else {
         notify("Zdobyłeś " + soulLoot + " dusz!");
     }
     const expLoot = Math.floor(Math.random() * 50) + 1;
