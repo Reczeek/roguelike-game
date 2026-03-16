@@ -25,6 +25,7 @@ const player = {
     expToNextLevel: 100,
     floorCount: 1,
     floor: 1,
+    runBonusses: []
 
 }
 
@@ -66,3 +67,4 @@ function notify(text) {
         notif.remove();
     }, 5000);
 }
+

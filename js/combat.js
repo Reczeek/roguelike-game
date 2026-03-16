@@ -1,15 +1,57 @@
 const enemies = [
-    { name: "Goblin", hp: 30, maxHp: 30, attack: 15, timeAttack: 1000 },
-    { name: "Szkielet", hp: 50, maxHp: 50, attack: 25, timeAttack: 1200 },
+    { name: "Szczur", hp: 30, maxHp: 30, attack: 15, timeAttack: 1000 },
+    { name: "Goblin", hp: 60, maxHp: 60, attack: 25, timeAttack: 1200 },
     { name: "Troll", hp: 80, maxHp: 80, attack: 37, timeAttack: 1500 },
-    { name: "Demon", hp: 120, maxHp: 120, attack: 49, timeAttack: 1800 },
+    { name: "Demon", hp: 120, maxHp: 120, attack: 49, timeAttack: 1200 },
 ]
 
 const bosses = [
-    { name: "Król Goblinów", hp: 200, maxHp: 200, attack: 30, timeAttack: 1500 },
-    { name: "Lich", hp: 350, maxHp: 350, attack: 40, timeAttack: 2000 },
-    { name: "Smok", hp: 500, maxHp: 500, attack: 55, timeAttack: 2200 },
+    { name: "Szczuras", hp: 70, maxHp: 70, attack: 30, timeAttack: 1500 },
+    { name: "Król Goblinów", hp: 350, maxHp: 350, attack: 40, timeAttack: 1600 },
+    { name: "Smok", hp: 500, maxHp: 500, attack: 55, timeAttack: 1800 },
 ]
+
+const floorData = [
+    { enemies: [{e: "Szczur", w: 100}], boss: "Szczuras" },
+    { enemies: [{e: "Szczur", w: 80}, {e: "Goblin", w: 20}], boss: "Szczuras" },
+    { enemies: [{e: "Szczur", w: 60}, {e: "Goblin", w: 40}], boss: "Szczuras" },
+    { enemies: [{e: "Szczur", w: 40}, {e: "Goblin", w: 60}], boss: "Król Goblinów" },
+    { enemies: [{e: "Szczur", w: 20}, {e: "Goblin", w: 70}, {e: "Troll", w: 10}], boss: "Król Goblinów" },
+    { enemies: [{e: "Szczur", w: 10}, {e: "Goblin", w: 70}, {e: "Troll", w: 20}], boss: "Król Goblinów" },
+    { enemies: [{e: "Szczur", w: 2}, {e: "Goblin", w: 60}, {e: "Troll", w: 38}], boss: "Król Goblinów" },
+    { enemies: [{e: "Goblin", w: 40}, {e: "Troll", w: 60}], boss: "Smok" },
+    { enemies: [{e: "Goblin", w: 20}, {e: "Troll", w: 70}, {e: "Demon", w: 10}], boss: "Smok" },
+]
+
+const tempBonuses = [
+    { name: "+5% atak", apply: function() { player.attack = Math.floor(player.attack * 1.05); }},
+    { name: "+10% max HP", apply: function() { player.maxHp *= 1.1; player.hp *= 1.1; }},
+    { name: "+10% złoto z walk", apply: function() { player.skills.goldBonus += 10; }},
+    { name: "+5% krytyk", apply: function() { player.equipment.weapon.critChance += 5; }},
+    { name: "Regeneracja +10 HP/s", apply: function() { player.equipment.accessory.regen += 10; }},
+    { name: "+5% szansa kontratak", apply: function() { player.equipment.ringDefense.counterChance += 5; }},
+]
+
+function getRandomEnemy() {
+    const floorIndex = Math.min(player.floor - 1, floorData.length - 1);
+    const floor = floorData[floorIndex];
+    const roll = Math.floor(Math.random() * 100) + 1;
+    let cumulative = 0;
+    for (const entry of floor.enemies) {
+        cumulative += entry.w;
+        if (roll <= cumulative) {
+            return enemies.find(e => e.name === entry.e);
+        }
+    }
+    return enemies[0];
+}
+
+function getBoss() {
+    const floorIndex = Math.min(player.floor - 1, floorData.length - 1);
+    const bossName = floorData[floorIndex].boss;
+    return bosses.find(b => b.name === bossName);
+}
+
 
 let enemy = {};
 let enemyInterval = null;
@@ -97,16 +139,21 @@ function checkCombatEnd() {
         return;
     }
     if (enemy.hp <= 0) {
-        combatActive = false;
-        clearInterval(enemyInterval);
-        clearInterval(playerInterval);
-        dropLoot();
-        player.floorCount++;
+    combatActive = false;
+    clearInterval(enemyInterval);
+    clearInterval(playerInterval);
+    dropLoot();
+    const wasBoss = player.floorCount === 0;
+    player.floorCount++;
+    if (wasBoss) {
+        showBossReward();
+    } else {
         loadScene("explore");
         setupButtons();
         renderInventory();
-        return;
     }
+    return;
+}
 }
 
 function initCombat() {
@@ -115,26 +162,25 @@ function initCombat() {
     clearInterval(playerInterval);
 
     if (player.floorCount === 8) {
-        const bossIndex = Math.min(player.floor - 1, bosses.length - 1);
-        const bossTemplate = bosses[bossIndex];
+        const bossTemplate = getBoss();
         enemy = { ...bossTemplate };
         notify("Boss: " + enemy.name + " pojawił się!");
         player.floorCount = 0;
         player.floor++;
     } else {
-        const randomEnemy = enemies[Math.floor(Math.random() * enemies.length)];
+        const randomEnemy = getRandomEnemy();
         enemy = { ...randomEnemy };
     }
 
     combatActive = true;
     startCombat();
 
-    enemyInterval = setInterval(function () {
+    enemyInterval = setInterval(function() {
         enemyAttack();
     }, enemy.timeAttack);
 
     const helmetTime = player.equipment.helmet ? player.equipment.helmet.timeAttack : 1000;
-    playerInterval = setInterval(function () {
+    playerInterval = setInterval(function() {
         playerAttack();
     }, helmetTime);
 }
@@ -156,4 +202,49 @@ function dropLoot() {
     player.exp += expLoot;
     notify("Zdobyłeś " + expLoot + " doświadczenia!");
     checkLevelUp();
+}
+
+function showBossReward() {
+    const indices = [];
+    while (indices.length < 3) {
+        const r = Math.floor(Math.random() * tempBonuses.length);
+        if (!indices.includes(r)) indices.push(r);
+    }
+
+    const b0 = tempBonuses[indices[0]];
+    const b1 = tempBonuses[indices[1]];
+    const b2 = tempBonuses[indices[2]];
+
+    scene.innerHTML = 
+        "<h1>Wybierz nagrodę</h1>"
+        + "<button id='bonus-0'>" + b0.name + "</button>"
+        + "<button id='bonus-1'>" + b1.name + "</button>"
+        + "<button id='bonus-2'>" + b2.name + "</button>"
+        + "<button id='btn-explore'>Uciekaj</button>";
+
+    document.getElementById('bonus-0').onclick = function() {
+        b0.apply();
+        player.runBonuses.push(b0.name);
+        notify("Wybrano: " + b0.name);
+        loadScene("explore");
+        setupButtons();
+    }
+    document.getElementById('bonus-1').onclick = function() {
+        b1.apply();
+        player.runBonuses.push(b1.name);
+        notify("Wybrano: " + b1.name);
+        loadScene("explore");
+        setupButtons();
+    }
+    document.getElementById('bonus-2').onclick = function() {
+        b2.apply();
+        player.runBonuses.push(b2.name);
+        notify("Wybrano: " + b2.name);
+        loadScene("explore");
+        setupButtons();
+    }
+    document.getElementById('btn-explore').onclick = function() {
+        loadScene("explore");
+        setupButtons();
+    }
 }
