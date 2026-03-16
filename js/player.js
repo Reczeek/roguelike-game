@@ -25,7 +25,7 @@ const player = {
     expToNextLevel: 100,
     floorCount: 1,
     floor: 1,
-    runBonusses: []
+    runBonuses: []
 
 }
 

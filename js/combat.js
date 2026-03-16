@@ -62,8 +62,7 @@ function startCombat() {
     scene.innerHTML =
         "<h1>Przeciwnik: " + enemy.name + "</h1>"
         + "<p>HP wroga: " + enemy.hp + "/" + enemy.maxHp + "</p>"
-        + "<p>HP gracza: " + player.hp + "/" + player.maxHp + "</p>"
-        + "<button id='btn-explore'>Uciekaj</button>";
+        + "<p>HP gracza: " + player.hp + "/" + player.maxHp + "</p>";
 
     const btnEscape = document.getElementById('btn-explore');
     if (btnEscape) {
@@ -148,7 +147,7 @@ function checkCombatEnd() {
     if (wasBoss) {
         showBossReward();
     } else {
-        loadScene("explore");
+        initCombat();
         setupButtons();
         renderInventory();
     }
@@ -226,22 +225,19 @@ function showBossReward() {
         b0.apply();
         player.runBonuses.push(b0.name);
         notify("Wybrano: " + b0.name);
-        loadScene("explore");
-        setupButtons();
+        initCombat();
     }
     document.getElementById('bonus-1').onclick = function() {
         b1.apply();
         player.runBonuses.push(b1.name);
         notify("Wybrano: " + b1.name);
-        loadScene("explore");
-        setupButtons();
+        initCombat();
     }
     document.getElementById('bonus-2').onclick = function() {
         b2.apply();
         player.runBonuses.push(b2.name);
         notify("Wybrano: " + b2.name);
-        loadScene("explore");
-        setupButtons();
+        initCombat();
     }
     document.getElementById('btn-explore').onclick = function() {
         loadScene("explore");
