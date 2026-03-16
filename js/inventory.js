@@ -26,3 +26,45 @@ function equipItem(index) {
     renderInventory();
     setupButtons();
 }
+
+function upgradeItem(slot) {
+    const item = player.equipment[slot];
+    const cost = item.upgradeLevel * 20;
+    if (player.gold >= cost) {
+        player.gold -= cost;
+        if (slot === "helmet") {
+            item.timeAttack -= 100;
+            item.upgradeLevel++;
+            item.level++;
+        }
+        if (slot === "armor") {
+            item.dodgeChance += 1;
+            item.upgradeLevel++;
+            item.level++;
+        }
+        if (slot === "weapon") {
+            item.critChance += 1;
+            item.upgradeLevel++;
+            item.level++;
+        }
+        if (slot === "ringAttack") {
+            item.doubleAttackChance += 1;
+            item.level++;
+            item.upgradeLevel++;
+        }
+        if (slot === "ringDefense") {
+            item.counterChance += 1;
+            item.level++;
+            item.upgradeLevel++;
+        }
+        if (slot === "accessory") {
+            item.regen += 5;
+            item.level++;
+            item.upgradeLevel++;
+        }
+    } else {
+        notify("Nie masz wystarczająco złota!");
+    }
+    loadScene("inventory");
+    setupButtons();
+}
