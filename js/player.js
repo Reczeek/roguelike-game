@@ -13,12 +13,12 @@ const player = {
         goldBonus: 0,
     },    
     equipment: {
-        helmet: {timeAttack: 1500},
-        armor: {dodgeChance: 1},
-        weapon: {critChance: 1},
-        ringAttack: {doubleAttackChance: 1},
-        ringDefense: {counterChance: 1},
-        accessory: {regen: 10}
+    helmet: {timeAttack: 1500, level: 1, upgradeLevel: 1, name: "Hełm"},
+    armor: {dodgeChance: 1, level: 1, upgradeLevel: 1, name: "Zbroja"},
+    weapon: {critChance: 1, level: 1, upgradeLevel: 1, name: "Broń"},
+    ringAttack: {doubleAttackChance: 1, level: 1, upgradeLevel: 1, name: "Pierścień Ataku"},
+    ringDefense: {counterChance: 1, level: 1, upgradeLevel: 1, name: "Pierścień Obrony"},
+    accessory: {regen: 10, level: 1, upgradeLevel: 1, name: "Akcesorium"}
     },
     level: 1,
     exp: 0,
@@ -32,7 +32,7 @@ function checkLevelUp() {
     if (player.exp >= player.expToNextLevel) {
         player.level++;
         player.exp -= player.expToNextLevel;
-        player.expToNextLevel += 50     
+        player.expToNextLevel += 35     
         player.maxHp += 20;
         player.hp = player.maxHp;
         player.attack += 3;
@@ -47,9 +47,12 @@ function saveGame() {
 function loadGame() {
     const savedPlayer = localStorage.getItem("player");
     if (savedPlayer) {
-        Object.assign(player, JSON.parse(savedPlayer));
+        const saved = JSON.parse(savedPlayer);
+        Object.assign(player, saved);
+        Object.assign(player.equipment, saved.equipment || {});
     }
 }
+
 
 function notify(text) {
     console.log("notify wywołany:", text)

@@ -12,7 +12,6 @@ const scenes = {
                 + " | Pokój: " + player.floorCount + "/8"
                 + "</div>"
             + "<button id='btn-combat'>Walka</button>" 
-            + "<button id='btn-shop'>Ulepszalnia</button>" 
             + "<button id='btn-skills'>Umiejętności</button>"
             + "<button id='btn-inventory'>Ekwipunek</button>"
             + "<button id='btn-save'>Zapisz</button>";
@@ -50,16 +49,16 @@ const scenes = {
     },
 
     inventory: function() {
-        scene.innerHTML = 
-            "<h1>Ekwipunek</h1>"
-            + "<div id='slots'>"
-            + "<div class='slot' id='slot-helmet'>🪖 Hełm<br>" + "</div>"
-            + "<div class='slot' id='slot-armor'>🛡️ Zbroja<br>" + "</div>"
-            + "<div class='slot' id='slot-weapon'>⚔️ Broń<br>" + "</div>"
-            + "<div class='slot' id='slot-ringAttack'>💍 Pierścień Ataku<br>" + "</div>"
-            + "<div class='slot' id='slot-ringDefense'>💍 Pierścień Obrony<br>" + "</div>"
-            + "<div class='slot' id='slot-accessory'>🔮 Akcesorium<br>" + "</div>"
-            + "</div>"
-            + "<button id='btn-explore'>Wróć</button>";
+    scene.innerHTML = 
+        "<h1>Ekwipunek</h1>"
+        + "<div id='slots'>"
+        + "<div class='slot'>🪖 Hełm<br>Level: " + player.equipment.helmet.level + "<br>Szybkość ataku: " + player.equipment.helmet.timeAttack / 1000 + "s</div>"
+        + "<div class='slot'>🛡️ Zbroja<br>Level: " + player.equipment.armor.level + "<br>Unik: " + player.equipment.armor.dodgeChance + "%</div>"
+        + "<div class='slot'>⚔️ Broń<br>Level: " + player.equipment.weapon.level + "<br>Krytyk: " + player.equipment.weapon.critChance + "%</div>"
+        + "<div class='slot'>💍 Pierścień Ataku<br>Level: " + player.equipment.ringAttack.level + "<br>Podwójny atak: " + player.equipment.ringAttack.doubleAttackChance + "%</div>"
+        + "<div class='slot'>🔰 Pierścień Obrony<br>Level: " + player.equipment.ringDefense.level + "<br>Kontratak: " + player.equipment.ringDefense.counterChance + "%</div>"
+        + "<div class='slot'>🔮 Akcesorium<br>Level: " + player.equipment.accessory.level + "<br>Regeneracja: " + player.equipment.accessory.regen + " HP/s</div>"
+        + "</div>"
+        + "<button id='btn-explore'>Wróć</button>";
 }
 }

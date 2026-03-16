@@ -1,3 +1,4 @@
+//localStorage.clear();
 loadGame();
 
 const scene = document.getElementById('scene');

@@ -17,15 +17,15 @@ let playerInterval = null;
 let combatActive = false;
 
 function startCombat() {
-    scene.innerHTML = 
-        "<h1>Przeciwnik: " + enemy.name + "</h1>" 
+    scene.innerHTML =
+        "<h1>Przeciwnik: " + enemy.name + "</h1>"
         + "<p>HP wroga: " + enemy.hp + "/" + enemy.maxHp + "</p>"
         + "<p>HP gracza: " + player.hp + "/" + player.maxHp + "</p>"
         + "<button id='btn-explore'>Uciekaj</button>";
 
     const btnEscape = document.getElementById('btn-explore');
     if (btnEscape) {
-        btnEscape.onclick = function() {
+        btnEscape.onclick = function () {
             combatActive = false;
             clearInterval(enemyInterval);
             clearInterval(playerInterval);
@@ -39,11 +39,12 @@ function enemyAttack() {
     if (!combatActive) return;
     const counterChance = player.equipment.ringDefense ? player.equipment.ringDefense.counterChance : 0;
     const dodgeChance = player.equipment.armor ? player.equipment.armor.dodgeChance : 0;
-    const roll = Math.floor(Math.random() * 100) + 1;
+    const counterLos = Math.floor(Math.random() * 100) + 1;
+    const dodgeLos = Math.floor(Math.random() * 100) + 1;
 
-    if (roll <= counterChance) {
+    if (counterLos <= counterChance) {
         enemy.hp -= enemy.attack;
-    } else if (roll <= dodgeChance) {
+    } else if (dodgeLos <= dodgeChance) {
         player.hp -= enemy.attack * 0.5;
     } else {
         player.hp -= enemy.attack;
@@ -57,14 +58,22 @@ function playerAttack() {
     if (!combatActive) return;
     const critChance = player.equipment.weapon ? player.equipment.weapon.critChance : 0;
     const doubleChance = player.equipment.ringAttack ? player.equipment.ringAttack.doubleAttackChance : 0;
-    const roll = Math.floor(Math.random() * 100) + 1;
+    const regen = player.equipment.accessory ? player.equipment.accessory.regen : 0;
+    const critLos = Math.floor(Math.random() * 100) + 1;
+    const doubleLos = Math.floor(Math.random() * 100) + 1;
 
-    if (roll <= critChance) {
+    if (critLos <= critChance) {
         enemy.hp -= player.attack * 2.5;
-    } else if (roll <= doubleChance) {
+        player.hp += regen
+        if (player.hp > player.maxHp) player.hp = player.maxHp;
+    } else if (doubleLos <= doubleChance) {
         enemy.hp -= player.attack * 2;
+        player.hp += regen;
+        if (player.hp > player.maxHp) player.hp = player.maxHp;
     } else {
         enemy.hp -= player.attack + player.skills.attackBonus;
+        player.hp += regen;
+        if (player.hp > player.maxHp) player.hp = player.maxHp;
     }
 
     checkCombatEnd();
@@ -120,12 +129,12 @@ function initCombat() {
     combatActive = true;
     startCombat();
 
-    enemyInterval = setInterval(function() {
+    enemyInterval = setInterval(function () {
         enemyAttack();
     }, enemy.timeAttack);
 
     const helmetTime = player.equipment.helmet ? player.equipment.helmet.timeAttack : 1000;
-    playerInterval = setInterval(function() {
+    playerInterval = setInterval(function () {
         playerAttack();
     }, helmetTime);
 }
