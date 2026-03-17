@@ -155,3 +155,20 @@ button:hover {
     width: 700px;
     margin: 0 auto;
 }
+
+.slash {
+    position: absolute;
+    width: 150px;
+    height: 8px;
+    background: linear-gradient(90deg, transparent, #ff0000, transparent);
+    transform: rotate(-45deg);
+    animation: slashAnim 0.3s ease-out forwards;
+    pointer-events: none;
+    box-shadow: 0 0 6px #ff0000
+}
+
+@keyframes slashAnim {
+    0% { opacity: 1; transform: rotate(-45deg) scaleX(0); }
+    50% { opacity: 1; transform: rotate(-45deg) scaleX(1); }
+    100% { opacity: 0; transform: rotate(-45deg) scaleX(1); }
+}

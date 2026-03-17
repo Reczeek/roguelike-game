@@ -107,14 +107,17 @@ function playerAttack() {
 
     if (critLos <= critChance) {
         enemy.hp -= player.attack * 2.5;
+        showSlash();
         player.hp += regen;
         if (player.hp > player.maxHp) player.hp = player.maxHp;
     } else if (doubleLos <= doubleChance) {
         enemy.hp -= player.attack * 2;
+        showSlash();
         player.hp += regen;
         if (player.hp > player.maxHp) player.hp = player.maxHp;
     } else {
         enemy.hp -= player.attack + player.skills.attackBonus;
+        showSlash();
         player.hp += regen;
         if (player.hp > player.maxHp) player.hp = player.maxHp;
     }
@@ -250,4 +253,17 @@ function getHpColor(hp, maxHp) {
     if (percent > 50) return "#2d8a2d";
     if (percent > 25) return "#cc7700";
     return "#8b0000";
+}
+
+function showSlash() {
+    const img = document.querySelector('img');
+    if (!img) return;
+    const rect = img.getBoundingClientRect();
+    const slash = document.createElement('div');
+    slash.classList.add('slash');
+    slash.style.position = 'fixed';
+    slash.style.left = (rect.left + Math.random() * rect.width) + 'px';
+    slash.style.top = (rect.top + Math.random() * rect.height) + 'px';
+    document.body.appendChild(slash);
+    setTimeout(function() { slash.remove(); }, 300);
 }
