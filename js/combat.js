@@ -64,8 +64,8 @@ function startCombat() {
     scene.innerHTML =
         "<h1>Przeciwnik: " + enemy.name + "</h1>"
         + "<img src='" + enemy.image + "' style='width:450px;height:450px;object-fit:contain;''>"
-        + "<p>HP wroga: " + enemy.hp + "/" + enemy.maxHp + "</p>"
-        + "<p>HP gracza: " + player.hp + "/" + player.maxHp + "</p>";
+        +  "<div class='hp-bar-container'><span>" + enemy.name + "</span><div class='hp-bar'><div class='hp-fill' style='width:" + (enemy.hp / enemy.maxHp * 100) + "%; background-color:" + getHpColor(enemy.hp, enemy.maxHp) + "'></div></div><span>" + enemy.hp + "/" + enemy.maxHp + "</span></div>"
+         + "<div class='hp-bar-container'><span>Gracz</span><div class='hp-bar'><div class='hp-fill' style='width:" + (player.hp / player.maxHp * 100) + "%; background-color:" + getHpColor(player.hp, player.maxHp) + "'></div></div><span>" + player.hp + "/" + player.maxHp + "</span></div>"
 
     const btnEscape = document.getElementById('btn-explore');
     if (btnEscape) {
@@ -246,4 +246,10 @@ function showBossReward() {
         loadScene("explore");
         setupButtons();
     }
+}
+function getHpColor(hp, maxHp) {
+    const percent = hp / maxHp * 100;
+    if (percent > 50) return "#2d8a2d";
+    if (percent > 25) return "#cc7700";
+    return "#8b0000";
 }
