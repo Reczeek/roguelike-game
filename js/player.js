@@ -48,6 +48,7 @@ const player = {
         accessoryLevel: 0,
         soulMultLevel: 0,
     },
+    wood: 0,
 
 }
 
