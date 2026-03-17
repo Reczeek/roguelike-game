@@ -4,7 +4,7 @@ const player = {
     maxHp: 100,
     attack: 10,
     defense: 5,
-    gold: 50,
+    gold: 0,
     inventory: [],
     souls: 0,
     skills: {
@@ -25,7 +25,29 @@ const player = {
     expToNextLevel: 100,
     floorCount: 1,
     floor: 1,
-    runBonuses: []
+    runBonuses: [],
+    meta: {
+        startHpBonus: 0,
+        startAttackBonus: 0,
+        startGoldBonus: 0,
+        startSoulsBonus: 0,
+        critChance: 0,
+        counterChance: 0,
+        soulMultiplier: 1,
+        lootChance: 0,
+        weaponUpgradeBonus: 0,
+        defenseBonus: 0,
+        regenPerRoom: 0,
+        shopDiscount: 0,
+        totalRuns: 0,
+        helmetLevel: 0,
+        armorLevel: 0,
+        weaponLevel: 0,
+        ringAtkLevel: 0,
+        ringDefLevel: 0,
+        accessoryLevel: 0,
+        soulMultLevel: 0,
+    },
 
 }
 

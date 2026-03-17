@@ -6,9 +6,9 @@ const enemies = [
 ]
 
 const bosses = [
-    { name: "Szczuras", hp: 70, maxHp: 70, attack: 30, timeAttack: 1500, image: 'assets/images/Szczuras.png' },
-    { name: "Król Goblinów", hp: 350, maxHp: 350, attack: 40, timeAttack: 1600, image: 'assets/images/GoblinKing.png' },
-    { name: "Smok", hp: 500, maxHp: 500, attack: 55, timeAttack: 1800, image: 'assets/images/Dragon.png' },
+    { name: "Szczuras", hp: 70, maxHp: 70, attack: 30, timeAttack: 1500, image: 'assets/images/Szczuras.png', isBoss: true },
+    { name: "Król Goblinów", hp: 350, maxHp: 350, attack: 40, timeAttack: 1600, image: 'assets/images/GoblinKing.png', isBoss: true },
+    { name: "Smok", hp: 500, maxHp: 500, attack: 55, timeAttack: 1800, image: 'assets/images/Dragon.png', isBoss: true },
 ]
 
 const floorData = [
@@ -54,7 +54,6 @@ function getBoss() {
     return bosses.find(b => b.name === bossName);
 }
 
-
 let enemy = {};
 let enemyInterval = null;
 let playerInterval = null;
@@ -64,8 +63,8 @@ function startCombat() {
     scene.innerHTML =
         "<h1>Przeciwnik: " + enemy.name + "</h1>"
         + "<img src='" + enemy.image + "' style='width:450px;height:450px;object-fit:contain;''>"
-        +  "<div class='hp-bar-container'><span>" + enemy.name + "</span><div class='hp-bar'><div class='hp-fill' style='width:" + (enemy.hp / enemy.maxHp * 100) + "%; background-color:" + getHpColor(enemy.hp, enemy.maxHp) + "'></div></div><span>" + enemy.hp + "/" + enemy.maxHp + "</span></div>"
-         + "<div class='hp-bar-container'><span>Gracz</span><div class='hp-bar'><div class='hp-fill' style='width:" + (player.hp / player.maxHp * 100) + "%; background-color:" + getHpColor(player.hp, player.maxHp) + "'></div></div><span>" + player.hp + "/" + player.maxHp + "</span></div>"
+        + "<div class='hp-bar-container'><span>" + enemy.name + "</span><div class='hp-bar'><div class='hp-fill' style='width:" + (enemy.hp / enemy.maxHp * 100) + "%; background-color:" + getHpColor(enemy.hp, enemy.maxHp) + "'></div></div><span>" + enemy.hp + "/" + enemy.maxHp + "</span></div>"
+        + "<div class='hp-bar-container'><span>Gracz</span><div class='hp-bar'><div class='hp-fill' style='width:" + (player.hp / player.maxHp * 100) + "%; background-color:" + getHpColor(player.hp, player.maxHp) + "'></div></div><span>" + player.hp + "/" + player.maxHp + "</span></div>";
 
     const btnEscape = document.getElementById('btn-explore');
     if (btnEscape) {
@@ -108,7 +107,7 @@ function playerAttack() {
 
     if (critLos <= critChance) {
         enemy.hp -= player.attack * 2.5;
-        player.hp += regen
+        player.hp += regen;
         if (player.hp > player.maxHp) player.hp = player.maxHp;
     } else if (doubleLos <= doubleChance) {
         enemy.hp -= player.attack * 2;
@@ -141,21 +140,21 @@ function checkCombatEnd() {
         return;
     }
     if (enemy.hp <= 0) {
-    combatActive = false;
-    clearInterval(enemyInterval);
-    clearInterval(playerInterval);
-    dropLoot();
-    const wasBoss = player.floorCount === 0;
-    player.floorCount++;
-    if (wasBoss) {
-        showBossReward();
-    } else {
-        initCombat();
-        setupButtons();
-        renderInventory();
+        combatActive = false;
+        clearInterval(enemyInterval);
+        clearInterval(playerInterval);
+        dropLoot();
+        const wasBoss = enemy.isBoss;
+        player.floorCount++;
+        if (wasBoss) {
+            showBossReward();
+        } else {
+            loadScene("explore");
+            setupButtons();
+            renderInventory();
+        }
+        return;
     }
-    return;
-}
 }
 
 function initCombat() {
@@ -191,15 +190,13 @@ function dropLoot() {
     const goldLoot = (Math.floor(Math.random() * 16) + 5) + player.skills.goldBonus;
     player.gold += goldLoot;
     notify("Zdobyłeś: " + goldLoot + " złota!");
-    const soulLoot = Math.floor(Math.random() * 5) + 1;
-    player.souls += soulLoot;
-    if (soulLoot === 1) {
-        notify("Zdobyłeś " + soulLoot + " duszę!");
-    } else if (soulLoot < 5) {
-        notify("Zdobyłeś " + soulLoot + " dusze!");
-    } else {
-        notify("Zdobyłeś " + soulLoot + " dusz!");
+
+    if (enemy.isBoss) {
+        const soulLoot = player.meta ? player.meta.soulMultiplier : 1;
+        player.souls += soulLoot;
+        notify("Zdobyłeś " + soulLoot + (soulLoot === 1 ? " duszę!" : soulLoot < 5 ? " dusze!" : " dusz!"));
     }
+
     const expLoot = Math.floor(Math.random() * 50) + 1;
     player.exp += expLoot;
     notify("Zdobyłeś " + expLoot + " doświadczenia!");
@@ -217,7 +214,7 @@ function showBossReward() {
     const b1 = tempBonuses[indices[1]];
     const b2 = tempBonuses[indices[2]];
 
-    scene.innerHTML = 
+    scene.innerHTML =
         "<h1>Wybierz nagrodę</h1>"
         + "<button id='bonus-0'>" + b0.name + "</button>"
         + "<button id='bonus-1'>" + b1.name + "</button>"
@@ -247,6 +244,7 @@ function showBossReward() {
         setupButtons();
     }
 }
+
 function getHpColor(hp, maxHp) {
     const percent = hp / maxHp * 100;
     if (percent > 50) return "#2d8a2d";

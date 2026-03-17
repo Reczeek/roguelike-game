@@ -147,3 +147,11 @@ button:hover {
     min-width: 80px;
     text-align: center;
 }
+
+#rebirth-perks {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    width: 700px;
+    margin: 0 auto;
+}

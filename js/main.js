@@ -8,111 +8,31 @@ function loadScene(nazwa) {
 
 function setupButtons() {
     const btnCombat = document.getElementById('btn-combat');
-    const btnShop = document.getElementById('btn-shop');
     const btnExplore = document.getElementById('btn-explore');
-    const btnBuy1 = document.getElementById('btn-buy-1');
-    const btnBuy2 = document.getElementById('btn-buy-2');
-    const btnBuy3 = document.getElementById('btn-buy-3');
-    const btnskills = document.getElementById('btn-skills');
-    const btnskillsatk = document.getElementById('btn-skill-atk');
-    const btnskillshp = document.getElementById('btn-skill-hp');
-    const btnskillsgold = document.getElementById('btn-skill-gold');
     const btnInventory = document.getElementById('btn-inventory');
     const btnSave = document.getElementById('btn-save');
+    const btnRebirth = document.getElementById('btn-rebirth');
+    const btnDoRebirth = document.getElementById('btn-do-rebirth');
+    const btnMetaHelmet = document.getElementById('btn-meta-helmet');
+    const btnMetaArmor = document.getElementById('btn-meta-armor');
+    const btnMetaWeapon = document.getElementById('btn-meta-weapon');
+    const btnMetaRingAtk = document.getElementById('btn-meta-ringAtk');
+    const btnMetaRingDef = document.getElementById('btn-meta-ringDef');
+    const btnMetaAccessory = document.getElementById('btn-meta-accessory');
+    const btnMetaSoulMult = document.getElementById('btn-meta-soulMult');
+
     if (btnCombat) {
         btnCombat.onclick = function() {
             loadScene("combat");
             setupButtons();
         }
     }
-    if (btnShop) {
-        btnShop.onclick = function() {
-            loadScene("upgrade");
-            setupButtons();
-        }
-    }
+
     if (btnExplore) {
         btnExplore.onclick = function() {
             loadScene("explore");
             setupButtons();
             renderInventory();
-        }
-    }
-    if (btnBuy1) {
-        btnBuy1.onclick = function() {
-            if (player.gold >= 10) {
-                player.gold -= 10;
-                addItem("Mikstura HP");
-                loadScene("upgrade");
-                setupButtons();
-                document.getElementById("msg").innerHTML = "Kupiłeś: Mikstura HP!";
-            } else {
-                notify("Nie masz wystarczająco złota!");
-            }
-        }
-    }
-    if (btnBuy2) {
-        btnBuy2.onclick = function() {
-            if (player.gold >= 20) {
-                player.gold -= 20;
-                addItem("Broń");
-                loadScene("upgrade");
-                setupButtons();
-                document.getElementById("msg").innerHTML = "Kupiłeś: Broń!";
-            } else {
-                notify("Nie masz wystarczająco złota!");
-            }
-        }
-    }
-    if (btnBuy3) {
-        btnBuy3.onclick = function() {
-            if (player.gold >= 15) {
-                player.gold -= 15;
-                addItem("Zbroja");
-                loadScene("upgrade");
-                setupButtons();
-                document.getElementById("msg").innerHTML = "Kupiłeś: Zbroja!";
-            } else {
-                notify("Nie masz wystarczająco złota!");
-            }
-        }
-    }
-    if (btnskills) {
-        btnskills.onclick = function() {
-            loadScene("skills");
-            setupButtons();
-        }
-    }
-    if (btnskillsatk) {
-        btnskillsatk.onclick = function() {
-            if (player.souls >= 3) {
-                player.souls -= 3;
-                player.skills.attackBonus += 2;
-                loadScene("skills");
-                setupButtons();
-            }
-        }
-    }
-    if (btnskillshp) {
-        btnskillshp.onclick = function() {
-            if (player.souls >= 3) {
-                player.souls -= 3;
-                player.skills.hpBonus += 20;
-                player.maxHp += 20;
-                player.hp += 20;
-                loadScene("skills");
-                setupButtons();
-            }
-        }
-    }
-    if (btnskillsgold) {
-        btnskillsgold.onclick = function() {
-            if (player.souls >= 3) {
-                player.souls -= 3;
-                player.skills.goldBonus += 5;
-                loadScene("skills");
-                setupButtons();
-            }
         }
     }
 
@@ -131,8 +51,153 @@ function setupButtons() {
         }
     }
 
+    if (btnRebirth) {
+        btnRebirth.onclick = function() {
+            if (confirm("Czy na pewno chcesz się odrodzić? Stracisz cały postęp, ale będziesz mógł zacząć od nowa z bonusami!")) {
+                loadScene("rebirth");
+                setupButtons();
+            } else {
+                notify("Odrodzenie anulowane.");
+                loadScene("explore");
+                setupButtons();
+            }
+        }
+    }
+
+    if (btnDoRebirth) {
+        btnDoRebirth.onclick = function() {
+            if (confirm("Czy na pewno? Cały postęp tej runy zostanie utracony!")) {
+                doRebirth();
+            }
+        }
+    }
+
+    if (btnMetaHelmet) {
+        btnMetaHelmet.onclick = function() {
+            const cost = (player.meta.helmetLevel + 1) * 2;
+            if (player.souls >= cost) {
+                player.souls -= cost;
+                player.meta.helmetLevel++;
+                player.meta.weaponUpgradeBonus += 1;
+                notify("Ulepszenie hełmu poprawione! (poziom " + player.meta.helmetLevel + ")");
+                loadScene("rebirth");
+                setupButtons();
+            } else { notify("Za mało dusz! Potrzebujesz " + cost + "."); }
+        }
+    }
+
+    if (btnMetaArmor) {
+        btnMetaArmor.onclick = function() {
+            const cost = (player.meta.armorLevel + 1) * 2;
+            if (player.souls >= cost) {
+                player.souls -= cost;
+                player.meta.armorLevel++;
+                player.meta.weaponUpgradeBonus += 1;
+                notify("Ulepszenie zbroi poprawione! (poziom " + player.meta.armorLevel + ")");
+                loadScene("rebirth");
+                setupButtons();
+            } else { notify("Za mało dusz! Potrzebujesz " + cost + "."); }
+        }
+    }
+
+    if (btnMetaWeapon) {
+        btnMetaWeapon.onclick = function() {
+            const cost = (player.meta.weaponLevel + 1) * 2;
+            if (player.souls >= cost) {
+                player.souls -= cost;
+                player.meta.weaponLevel++;
+                player.meta.weaponUpgradeBonus += 1;
+                notify("Ulepszenie broni poprawione! (poziom " + player.meta.weaponLevel + ")");
+                loadScene("rebirth");
+                setupButtons();
+            } else { notify("Za mało dusz! Potrzebujesz " + cost + "."); }
+        }
+    }
+
+    if (btnMetaRingAtk) {
+        btnMetaRingAtk.onclick = function() {
+            const cost = (player.meta.ringAtkLevel + 1) * 2;
+            if (player.souls >= cost) {
+                player.souls -= cost;
+                player.meta.ringAtkLevel++;
+                player.meta.weaponUpgradeBonus += 1;
+                notify("Ulepszenie pierścienia ataku poprawione! (poziom " + player.meta.ringAtkLevel + ")");
+                loadScene("rebirth");
+                setupButtons();
+            } else { notify("Za mało dusz! Potrzebujesz " + cost + "."); }
+        }
+    }
+
+    if (btnMetaRingDef) {
+        btnMetaRingDef.onclick = function() {
+            const cost = (player.meta.ringDefLevel + 1) * 2;
+            if (player.souls >= cost) {
+                player.souls -= cost;
+                player.meta.ringDefLevel++;
+                player.meta.weaponUpgradeBonus += 1;
+                notify("Ulepszenie pierścienia obrony poprawione! (poziom " + player.meta.ringDefLevel + ")");
+                loadScene("rebirth");
+                setupButtons();
+            } else { notify("Za mało dusz! Potrzebujesz " + cost + "."); }
+        }
+    }
+
+    if (btnMetaAccessory) {
+        btnMetaAccessory.onclick = function() {
+            const cost = (player.meta.accessoryLevel + 1) * 2;
+            if (player.souls >= cost) {
+                player.souls -= cost;
+                player.meta.accessoryLevel++;
+                player.meta.weaponUpgradeBonus += 1;
+                notify("Ulepszenie akcesorium poprawione! (poziom " + player.meta.accessoryLevel + ")");
+                loadScene("rebirth");
+                setupButtons();
+            } else { notify("Za mało dusz! Potrzebujesz " + cost + "."); }
+        }
+    }
+
+    if (btnMetaSoulMult) {
+        btnMetaSoulMult.onclick = function() {
+            const cost = (player.meta.soulMultLevel + 1) * 5;
+            if (player.souls >= cost) {
+                player.souls -= cost;
+                player.meta.soulMultLevel++;
+                player.meta.soulMultiplier += 1;
+                notify("+1 dusza z bossa! (poziom " + player.meta.soulMultLevel + ")");
+                loadScene("rebirth");
+                setupButtons();
+            } else { notify("Za mało dusz! Potrzebujesz " + cost + "."); }
+        }
+    }
 }
 
+function doRebirth() {
+    const savedMeta = player.meta;
+    const savedSouls = player.souls;
+    const savedRuns = player.meta.totalRuns + 1;
+
+    player.hp = 100;
+    player.maxHp = 100;
+    player.attack = 10;;
+    player.defense = 5;
+    player.gold = 0
+    player.exp = 0;
+    player.level = 1;
+    player.expToNextLevel = 100;
+    player.floor = 1;
+    player.floorCount = 1;
+    player.inventory = [];
+    player.skills = { attackBonus: 0, hpBonus: 0, goldBonus: 0 };
+    player.runBonuses = [];
+
+    player.meta = savedMeta;
+    player.meta.totalRuns = savedRuns;
+    player.souls = savedSouls;
+
+    notify("Odrodzenie! Runa #" + savedRuns + " rozpoczęta.");
+    loadScene("explore");
+    setupButtons();
+}
 
 loadScene("explore");
 setupButtons();
