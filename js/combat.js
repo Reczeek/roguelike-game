@@ -1,14 +1,14 @@
 const enemies = [
-    { name: "Szczur", hp: 30, maxHp: 30, attack: 15, timeAttack: 1000 },
-    { name: "Goblin", hp: 60, maxHp: 60, attack: 25, timeAttack: 1200 },
-    { name: "Troll", hp: 80, maxHp: 80, attack: 37, timeAttack: 1500 },
-    { name: "Demon", hp: 120, maxHp: 120, attack: 49, timeAttack: 1200 },
+    { name: "Szczur", hp: 30, maxHp: 30, attack: 15, timeAttack: 1000, image: 'assets/images/Rat.jpg' },
+    { name: "Goblin", hp: 60, maxHp: 60, attack: 25, timeAttack: 1200, image: 'assets/images/Goblin.png' },
+    { name: "Troll", hp: 80, maxHp: 80, attack: 37, timeAttack: 1500, image: 'assets/images/Troll.png' },
+    { name: "Demon", hp: 120, maxHp: 120, attack: 49, timeAttack: 1200, image: 'assets/images/Demon.png' },
 ]
 
 const bosses = [
-    { name: "Szczuras", hp: 70, maxHp: 70, attack: 30, timeAttack: 1500 },
-    { name: "Król Goblinów", hp: 350, maxHp: 350, attack: 40, timeAttack: 1600 },
-    { name: "Smok", hp: 500, maxHp: 500, attack: 55, timeAttack: 1800 },
+    { name: "Szczuras", hp: 70, maxHp: 70, attack: 30, timeAttack: 1500, image: 'assets/images/Szczuras.png' },
+    { name: "Król Goblinów", hp: 350, maxHp: 350, attack: 40, timeAttack: 1600, image: 'assets/images/GoblinKing.png' },
+    { name: "Smok", hp: 500, maxHp: 500, attack: 55, timeAttack: 1800, image: 'assets/images/Dragon.png' },
 ]
 
 const floorData = [
@@ -21,6 +21,8 @@ const floorData = [
     { enemies: [{e: "Szczur", w: 2}, {e: "Goblin", w: 60}, {e: "Troll", w: 38}], boss: "Król Goblinów" },
     { enemies: [{e: "Goblin", w: 40}, {e: "Troll", w: 60}], boss: "Smok" },
     { enemies: [{e: "Goblin", w: 20}, {e: "Troll", w: 70}, {e: "Demon", w: 10}], boss: "Smok" },
+    { enemies: [{e: "Goblin", w: 10}, {e: "Troll", w: 70}, {e: "Demon", w: 20}], boss: "Smok" },
+    { enemies: [{e: "Goblin", w: 2}, {e: "Troll", w: 60}, {e: "Demon", w: 38}], boss: "Smok" },
 ]
 
 const tempBonuses = [
@@ -61,6 +63,7 @@ let combatActive = false;
 function startCombat() {
     scene.innerHTML =
         "<h1>Przeciwnik: " + enemy.name + "</h1>"
+        + "<img src='" + enemy.image + "' style='width:450px;height:450px;object-fit:contain;''>"
         + "<p>HP wroga: " + enemy.hp + "/" + enemy.maxHp + "</p>"
         + "<p>HP gracza: " + player.hp + "/" + player.maxHp + "</p>";
 
