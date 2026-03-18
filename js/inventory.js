@@ -63,7 +63,7 @@ function upgradeItem(slot) {
             item.upgradeLevel++;
         }
     } else {
-        notify("Nie masz wystarczająco złota!");
+        notify("Nie masz wystarczająco 🪙!");
     }
     loadScene("inventory");
     setupButtons();

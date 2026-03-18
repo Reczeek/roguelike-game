@@ -51,7 +51,7 @@ const lumberjackData = [
 const tempBonuses = [
     { name: "+5% atak", apply: function() { player.attack = Math.floor(player.attack * 1.05); }},
     { name: "+10% max HP", apply: function() { player.maxHp *= 1.1; player.hp *= 1.1; }},
-    { name: "+10% złoto z walk", apply: function() { player.skills.goldBonus += 10; }},
+    { name: "+10% 🪙 z walk", apply: function() { player.skills.goldBonus += 10; }},
     { name: "+5% krytyk", apply: function() { player.equipment.weapon.critChance += 5; }},
     { name: "Regeneracja +10 HP/s", apply: function() { player.equipment.accessory.regen += 10; }},
     { name: "+5% szansa kontratak", apply: function() { player.equipment.ringDefense.counterChance += 5; }},
@@ -215,12 +215,12 @@ function initCombat() {
 function dropLoot() {
     const goldLoot = Math.floor(Math.random() * (enemy.goldMax - enemy.goldMin + 1)) + enemy.goldMin;
     player.gold += goldLoot;
-    notify("Zdobyłeś: " + goldLoot + " złota!");
+    notify("Zdobyłeś: " + goldLoot + " 🪙!");
 
     if (enemy.isBoss) {
         const soulLoot = player.meta ? player.meta.soulMultiplier : 1;
         player.souls += soulLoot;
-        notify("Zdobyłeś " + soulLoot + (soulLoot === 1 ? " duszę!" : soulLoot < 5 ? " dusze!" : " dusz!"));
+        notify("Zdobyłeś " + soulLoot + (soulLoot === 1 ? "💀!" : soulLoot < 5 ? " 💀!" : " 💀!"));
     }
 
     const expLoot = Math.floor(Math.random() * 50) + 1;

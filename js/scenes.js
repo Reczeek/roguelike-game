@@ -3,13 +3,13 @@ const scenes = {
         scene.innerHTML = 
             "<h1>Eksploracja</h1>"
             + "<div id='stats'>"
-                + "HP: " + player.hp + "/" + player.maxHp 
-                + " | Poziom: " + player.level 
-                + " | XP: " + player.exp + "/" + player.expToNextLevel
-                + " | Złoto: " + player.gold
-                + " | Dusze: " + player.souls
-                + " | Piętro: " + player.floor
-                + " | Pokój: " + player.floorCount + "/8"
+                + "❤️: " + player.hp + "/" + player.maxHp 
+                + " | ⭐ " + player.level 
+                + " | ✨ " + player.exp + "/" + player.expToNextLevel
+                + " | 🪙 " + player.gold
+                + " | 💀 " + player.souls
+                + " | 🏰 " + player.floor
+                + " | 🚪 " + player.floorCount + "/8"
                 + "</div>"
             + "<button id='btn-combat'>Walka</button>" 
             + "<button id='btn-inventory'>Ekwipunek</button>"
@@ -20,7 +20,7 @@ const scenes = {
 
     upgrade: function() {
         let html = "<h1>Ulepszalnia</h1>"
-            + "<p>Złoto: " + player.gold + "</p>";
+            + "<p>🪙 " + player.gold + "</p>";
         
         for (const slot in player.equipment) {
             const item = player.equipment[slot];
@@ -57,15 +57,15 @@ const scenes = {
         scene.innerHTML =
             "<h1>Odrodzenie</h1>"
             + "<p>Poświęć swoje postępy, aby zdobyć trwałe bonusy w kolejnych runach.</p>"
-            + "<p>Aktualne dusze: " + player.souls + "</p>"
+            + "<p>💀 " + player.souls + "</p>"
             + "<div id='rebirth-perks'>"
-                + "<button id='btn-meta-helmet'>Lepsze ulepszenie hełmu (" + ((player.meta.helmetLevel + 1) * 2) + " dusze)</button>"
-                + "<button id='btn-meta-armor'>Lepsze ulepszenie zbroi (" + ((player.meta.armorLevel + 1) * 2) + " dusze)</button>"
-                + "<button id='btn-meta-weapon'>Lepsze ulepszenie broni (" + ((player.meta.weaponLevel + 1) * 2) + " dusze)</button>"
-                + "<button id='btn-meta-ringAtk'>Lepsze ulepszenie pierścienia ataku (" + ((player.meta.ringAtkLevel + 1) * 2) + " dusze)</button>"
-                + "<button id='btn-meta-ringDef'>Lepsze ulepszenie pierścienia obrony (" + ((player.meta.ringDefLevel + 1) * 2) + " dusze)</button>"
-                + "<button id='btn-meta-accessory'>Lepsze ulepszenie akcesorium (" + ((player.meta.accessoryLevel + 1) * 2) + " dusze)</button>"
-                + "<button id='btn-meta-soulMult'>+1 dusza z bossa (" + ((player.meta.soulMultLevel + 1) * 5) + " dusz)</button>"
+                + "<button id='btn-meta-helmet'>Lepsze ulepszenie hełmu (" + ((player.meta.helmetLevel + 1) * 2) + " 💀)</button>"
+                + "<button id='btn-meta-armor'>Lepsze ulepszenie zbroi (" + ((player.meta.armorLevel + 1) * 2) + " 💀)</button>"
+                + "<button id='btn-meta-weapon'>Lepsze ulepszenie broni (" + ((player.meta.weaponLevel + 1) * 2) + " 💀)</button>"
+                + "<button id='btn-meta-ringAtk'>Lepsze ulepszenie pierścienia ataku (" + ((player.meta.ringAtkLevel + 1) * 2) + " 💀)</button>"
+                + "<button id='btn-meta-ringDef'>Lepsze ulepszenie pierścienia obrony (" + ((player.meta.ringDefLevel + 1) * 2) + " 💀)</button>"
+                + "<button id='btn-meta-accessory'>Lepsze ulepszenie akcesorium (" + ((player.meta.accessoryLevel + 1) * 2) + " 💀)</button>"
+                + "<button id='btn-meta-soulMult'>+1 💀 z bossa (" + ((player.meta.soulMultLevel + 1) * 5) + " 💀)</button>"
             + "</div>"
             + "<button id='btn-do-rebirth'>⚡ ODRODŹ SIĘ</button>"
             + "<button id='btn-explore'>Wróć</button>";
@@ -73,10 +73,11 @@ const scenes = {
 
 
     mine: function() {
+    const treeImages = ['assets/images/young_tree.png', 'assets/images/tree_2.png', 'assets/images/bigtree.png'];
     scene.innerHTML =
         "<h1>Kopalnia</h1>"
-        + "<p>Drewno: " + player.wood + " / " + player.mine.maxWood + "</p>"
-        + "<img id='img-tree' src='assets/images/young_tree.png' style='width:900px;height:900px;object-fit:contain;cursor:pointer;'>"
+        + "<p>🪵 " + player.wood + " / " + player.mine.maxWood + "</p>"
+        + "<img id='img-tree' src='" + treeImages[player.mine.treeLevel] + "' style='width:900px;height:900px;object-fit:contain;cursor:pointer;'>"
         + "<button id='btn-mine-lumberjacks'>Drwale</button>"
         + "<button id='btn-mine-upgrade'>Ulepszenia</button>"
         + "<button id='btn-explore'>Wróć</button>";
@@ -88,13 +89,13 @@ const scenes = {
     const nextStorage = storageLevels[player.mine.storageLevel + 1];
     scene.innerHTML =
         "<h1>Ulepszenia Kopalni</h1>"
-        + "<p>Złoto: " + player.gold + "</p>"
-        + "<p>Siekiera poziom: " + player.mine.axeLevel + " | Drewno za klik: " + player.mine.woodPerClick + "</p>"
-        + "<button id='btn-upgrade-axe'>Ulepsz siekierę (" + axeCost + "g)</button>"
+        + "<p>🪙 " + player.gold + "</p>"
+        + "<p>Siekiera poziom: " + player.mine.axeLevel + " | 🪵 za klik: " + player.mine.woodPerClick + "</p>"
+        + "<button id='btn-upgrade-axe'>Ulepsz siekierę (" + axeCost + "🪙)</button>"
         + "<p>Drzewo poziom: " + player.mine.treeLevel + "</p>"
-        + "<button id='btn-upgrade-tree'>Ulepsz drzewo (" + treeCost + "g)</button>"
+        + "<button id='btn-upgrade-tree'>Ulepsz drzewo (" + treeCost + "🪙)</button>"
         + "<p>Magazyn poziom: " + player.mine.storageLevel + " | Pojemność: " + player.mine.maxWood + "</p>"
-        + (nextStorage ? "<button id='btn-upgrade-storage'>Ulepsz magazyn (" + nextStorage.cost + "g)</button>" : "<p>Magazyn MAX</p>")
+        + (nextStorage ? "<button id='btn-upgrade-storage'>Ulepsz magazyn (" + nextStorage.cost + "🪙)</button>" : "<p>Magazyn MAX</p>")
         + "<button id='btn-mine'>Wróć</button>";
 },
 
