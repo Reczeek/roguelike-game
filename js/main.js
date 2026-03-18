@@ -20,6 +20,13 @@ function setupButtons() {
     const btnMetaRingDef = document.getElementById('btn-meta-ringDef');
     const btnMetaAccessory = document.getElementById('btn-meta-accessory');
     const btnMetaSoulMult = document.getElementById('btn-meta-soulMult');
+    const btnMine = document.getElementById('btn-mine');
+    const imgTree = document.getElementById('img-tree');
+    const btnMineLumberjacks = document.getElementById('btn-mine-lumberjacks');
+    const btnMineUpgrade = document.getElementById('btn-mine-upgrade');
+    const btnUpgradeAxe = document.getElementById('btn-upgrade-axe');
+    const btnUpgradeTree = document.getElementById('btn-upgrade-tree');
+    const btnUpgradeStorage = document.getElementById('btn-upgrade-storage');
 
     if (btnCombat) {
         btnCombat.onclick = function() {
@@ -169,6 +176,85 @@ function setupButtons() {
             } else { notify("Za mało dusz! Potrzebujesz " + cost + "."); }
         }
     }
+
+    if (btnMine) {
+        btnMine.onclick = function() {
+            loadScene("mine");
+            setupButtons();
+        }
+    }
+
+    if (imgTree) {
+        imgTree.onclick = function() {
+            if (player.wood < player.mine.maxWood) {
+                player.wood = Math.min(player.wood + player.mine.woodPerClick, player.mine.maxWood);
+                loadScene("mine");
+                setupButtons();
+            } else {
+                notify("Magazyn pełny!");
+            }
+        }
+    }
+
+    if (btnMineLumberjacks) {
+        btnMineLumberjacks.onclick = function() {
+            loadScene("mine_lumberjacks");
+            setupButtons();
+        }
+    }
+
+    if (btnMineUpgrade) {
+        btnMineUpgrade.onclick = function() {
+            loadScene("mine_upgrade");
+            setupButtons();
+        }
+    }
+
+    if (btnUpgradeAxe) {
+        btnUpgradeAxe.onclick = function() {
+            const cost = axeCosts[player.mine.axeLevel];
+            if (cost === undefined) { notify("Siekiera na MAX poziomie!"); return; }
+            if (player.gold >= cost) {
+                player.gold -= cost;
+                player.mine.axeLevel++;
+                player.mine.woodPerClick += axeBonus;
+                notify("Siekiera ulepszona! (poziom " + player.mine.axeLevel + ") | +" + axeBonus + " drewna/klik");
+                loadScene("mine_upgrade");
+                setupButtons();
+            } else { notify("Za mało złota! Potrzebujesz " + cost + "g."); }
+        }
+    }
+
+    if (btnUpgradeTree) {
+        btnUpgradeTree.onclick = function() {
+            const cost = treeCosts[player.mine.treeLevel];
+            if (cost === undefined) { notify("Drzewo na MAX poziomie!"); return; }
+            if (player.gold >= cost) {
+                player.gold -= cost;
+                const bonus = treeBonus[player.mine.treeLevel];
+                player.mine.woodPerClick += bonus;
+                player.mine.treeLevel++;
+                notify("Drzewo ulepszone! (poziom " + player.mine.treeLevel + ") | +" + bonus + " drewna/klik");
+                loadScene("mine_upgrade");
+                setupButtons();
+            } else { notify("Za mało złota! Potrzebujesz " + cost + "g."); }
+        }
+    }
+
+    if (btnUpgradeStorage) {
+        btnUpgradeStorage.onclick = function() {
+            const nextStorage = storageLevels[player.mine.storageLevel + 1];
+            if (!nextStorage) { notify("Magazyn na MAX poziomie!"); return; }
+            if (player.gold >= nextStorage.cost) {
+                player.gold -= nextStorage.cost;
+                player.mine.storageLevel++;
+                player.mine.maxWood = nextStorage.capacity;
+                notify("Magazyn ulepszony! Pojemność: " + nextStorage.capacity);
+                loadScene("mine_upgrade");
+                setupButtons();
+            } else { notify("Za mało złota! Potrzebujesz " + nextStorage.cost + "g."); }
+        }
+    }
 }
 
 function doRebirth() {
@@ -178,9 +264,9 @@ function doRebirth() {
 
     player.hp = 100;
     player.maxHp = 100;
-    player.attack = 10;;
+    player.attack = 10;
     player.defense = 5;
-    player.gold = 0
+    player.gold = 0;
     player.exp = 0;
     player.level = 1;
     player.expToNextLevel = 100;

@@ -49,6 +49,22 @@ const player = {
         soulMultLevel: 0,
     },
     wood: 0,
+    mine: {
+    axeLevel: 0,
+    woodPerClick: 1,
+    treeLevel: 0,
+    storageLevel: 0,
+    maxWood: 20,
+    lumberjacks: [
+        { name: "Drwal 1", unlocked: false, level: 0, woodPerSec: 0 },
+        { name: "Drwal 2", unlocked: false, level: 0, woodPerSec: 0 },
+        { name: "Drwal 3", unlocked: false, level: 0, woodPerSec: 0 },
+        { name: "Drwal 4", unlocked: false, level: 0, woodPerSec: 0 },
+        { name: "Drwal 5", unlocked: false, level: 0, woodPerSec: 0 },
+        { name: "Drwal 6", unlocked: false, level: 0, woodPerSec: 0 },
+        { name: "Drwal 7", unlocked: false, level: 0, woodPerSec: 0 },
+    ]
+}
 
 }
 

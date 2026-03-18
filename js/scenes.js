@@ -13,6 +13,7 @@ const scenes = {
                 + "</div>"
             + "<button id='btn-combat'>Walka</button>" 
             + "<button id='btn-inventory'>Ekwipunek</button>"
+            + "<button id='btn-mine'>Kopalnia</button>"
             + "<button id='btn-rebirth'>Odrodzenie</button>"
             + "<button id='btn-save'>Zapisz</button>";
     },
@@ -69,4 +70,37 @@ const scenes = {
             + "<button id='btn-do-rebirth'>⚡ ODRODŹ SIĘ</button>"
             + "<button id='btn-explore'>Wróć</button>";
     },
+
+
+    mine: function() {
+    scene.innerHTML =
+        "<h1>Kopalnia</h1>"
+        + "<p>Drewno: " + player.wood + " / " + player.mine.maxWood + "</p>"
+        + "<img id='img-tree' src='assets/images/young_tree.png' style='width:900px;height:900px;object-fit:contain;cursor:pointer;'>"
+        + "<button id='btn-mine-lumberjacks'>Drwale</button>"
+        + "<button id='btn-mine-upgrade'>Ulepszenia</button>"
+        + "<button id='btn-explore'>Wróć</button>";
+},
+
+    mine_upgrade: function() {
+    const axeCost = axeCosts[player.mine.axeLevel] || "MAX";
+    const treeCost = treeCosts[player.mine.treeLevel] || "MAX";
+    const nextStorage = storageLevels[player.mine.storageLevel + 1];
+    scene.innerHTML =
+        "<h1>Ulepszenia Kopalni</h1>"
+        + "<p>Złoto: " + player.gold + "</p>"
+        + "<p>Siekiera poziom: " + player.mine.axeLevel + " | Drewno za klik: " + player.mine.woodPerClick + "</p>"
+        + "<button id='btn-upgrade-axe'>Ulepsz siekierę (" + axeCost + "g)</button>"
+        + "<p>Drzewo poziom: " + player.mine.treeLevel + "</p>"
+        + "<button id='btn-upgrade-tree'>Ulepsz drzewo (" + treeCost + "g)</button>"
+        + "<p>Magazyn poziom: " + player.mine.storageLevel + " | Pojemność: " + player.mine.maxWood + "</p>"
+        + (nextStorage ? "<button id='btn-upgrade-storage'>Ulepsz magazyn (" + nextStorage.cost + "g)</button>" : "<p>Magazyn MAX</p>")
+        + "<button id='btn-mine'>Wróć</button>";
+},
+
+    mine_lumberjacks: function() {
+    scene.innerHTML =
+        "<h1>Drwale</h1>"
+        + "<button id='btn-mine'>Wróć</button>";
+}
 }

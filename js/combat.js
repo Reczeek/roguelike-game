@@ -1,14 +1,14 @@
 const enemies = [
-    { name: "Szczur", hp: 30, maxHp: 30, attack: 15, timeAttack: 1000, image: 'assets/images/Rat.jpg' },
-    { name: "Goblin", hp: 60, maxHp: 60, attack: 25, timeAttack: 1200, image: 'assets/images/Goblin.png' },
-    { name: "Troll", hp: 80, maxHp: 80, attack: 37, timeAttack: 1500, image: 'assets/images/Troll.png' },
-    { name: "Demon", hp: 120, maxHp: 120, attack: 49, timeAttack: 1200, image: 'assets/images/Demon.png' },
+    { name: "Szczur",  hp: 30,  maxHp: 30,  attack: 15, timeAttack: 1000, image: 'assets/images/Rat.jpg',    goldMin: 1,   goldMax: 3   },
+    { name: "Goblin",  hp: 60,  maxHp: 60,  attack: 25, timeAttack: 1200, image: 'assets/images/Goblin.png', goldMin: 3,   goldMax: 8   },
+    { name: "Troll",   hp: 80,  maxHp: 80,  attack: 37, timeAttack: 1500, image: 'assets/images/Troll.png',  goldMin: 8,   goldMax: 20  },
+    { name: "Demon",   hp: 120, maxHp: 120, attack: 49, timeAttack: 1200, image: 'assets/images/Demon.png',  goldMin: 20,  goldMax: 50  },
 ]
 
 const bosses = [
-    { name: "Szczuras", hp: 70, maxHp: 70, attack: 30, timeAttack: 1500, image: 'assets/images/Szczuras.png', isBoss: true },
-    { name: "Król Goblinów", hp: 350, maxHp: 350, attack: 40, timeAttack: 1600, image: 'assets/images/GoblinKing.png', isBoss: true },
-    { name: "Smok", hp: 500, maxHp: 500, attack: 55, timeAttack: 1800, image: 'assets/images/Dragon.png', isBoss: true },
+    { name: "Szczuras",       hp: 70,  maxHp: 70,  attack: 30, timeAttack: 1500, image: 'assets/images/Szczuras.png',   isBoss: true, goldMin: 15,  goldMax: 30  },
+    { name: "Król Goblinów",  hp: 350, maxHp: 350, attack: 40, timeAttack: 1600, image: 'assets/images/GoblinKing.png', isBoss: true, goldMin: 80,  goldMax: 150 },
+    { name: "Smok",           hp: 500, maxHp: 500, attack: 55, timeAttack: 1800, image: 'assets/images/Dragon.png',     isBoss: true, goldMin: 300, goldMax: 600 },
 ]
 
 const floorData = [
@@ -18,11 +18,34 @@ const floorData = [
     { enemies: [{e: "Szczur", w: 40}, {e: "Goblin", w: 60}], boss: "Król Goblinów" },
     { enemies: [{e: "Szczur", w: 20}, {e: "Goblin", w: 70}, {e: "Troll", w: 10}], boss: "Król Goblinów" },
     { enemies: [{e: "Szczur", w: 10}, {e: "Goblin", w: 70}, {e: "Troll", w: 20}], boss: "Król Goblinów" },
-    { enemies: [{e: "Szczur", w: 2}, {e: "Goblin", w: 60}, {e: "Troll", w: 38}], boss: "Król Goblinów" },
+    { enemies: [{e: "Szczur", w: 2},  {e: "Goblin", w: 60}, {e: "Troll", w: 38}], boss: "Król Goblinów" },
     { enemies: [{e: "Goblin", w: 40}, {e: "Troll", w: 60}], boss: "Smok" },
     { enemies: [{e: "Goblin", w: 20}, {e: "Troll", w: 70}, {e: "Demon", w: 10}], boss: "Smok" },
     { enemies: [{e: "Goblin", w: 10}, {e: "Troll", w: 70}, {e: "Demon", w: 20}], boss: "Smok" },
-    { enemies: [{e: "Goblin", w: 2}, {e: "Troll", w: 60}, {e: "Demon", w: 38}], boss: "Smok" },
+    { enemies: [{e: "Goblin", w: 2},  {e: "Troll", w: 60}, {e: "Demon", w: 38}], boss: "Smok" },
+]
+
+const axeCosts =     [2, 20, 40, 60, 100, 300, 700, 1500, 3300, 8000, 13000, 19000, 30000, 70000, 120000, 300000, 700000];
+const axeBonus =     4; // drewno za klik za każdy poziom
+const treeCosts =    [2000, 120000];
+const treeBonus =    [100, 1000]; // woodPerClick bonus za każdy poziom drzewa
+const storageLevels = [
+    { cost: 0,      capacity: 20      },
+    { cost: 300,    capacity: 200     },
+    { cost: 3000,   capacity: 2000    },
+    { cost: 14000,  capacity: 20000   },
+    { cost: 150000, capacity: 200000  },
+    { cost: 400000, capacity: 2000000 },
+]
+
+const lumberjackData = [
+    { name: "Drwal 1", unlockCost: 50,    levelCost: 30,    woodPerSec: 0.2  },
+    { name: "Drwal 2", unlockCost: 500,   levelCost: 200,   woodPerSec: 2    },
+    { name: "Drwal 3", unlockCost: 3000,  levelCost: 1500,  woodPerSec: 20   },
+    { name: "Drwal 4", unlockCost: 15000, levelCost: 8000,  woodPerSec: 50   },
+    { name: "Drwal 5", unlockCost: 60000, levelCost: 30000, woodPerSec: 100  },
+    { name: "Drwal 6", unlockCost: 200000,levelCost: 100000,woodPerSec: 300  },
+    { name: "Drwal 7", unlockCost: 700000,levelCost: 350000,woodPerSec: 500  },
 ]
 
 const tempBonuses = [
@@ -152,7 +175,7 @@ function checkCombatEnd() {
         if (wasBoss) {
             showBossReward();
         } else {
-            loadScene("explore");
+            initCombat();
             setupButtons();
             renderInventory();
         }
@@ -190,7 +213,7 @@ function initCombat() {
 }
 
 function dropLoot() {
-    const goldLoot = (Math.floor(Math.random() * 16) + 5) + player.skills.goldBonus;
+    const goldLoot = Math.floor(Math.random() * (enemy.goldMax - enemy.goldMin + 1)) + enemy.goldMin;
     player.gold += goldLoot;
     notify("Zdobyłeś: " + goldLoot + " złota!");
 
