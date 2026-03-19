@@ -13,16 +13,16 @@ const player = {
         goldBonus: 0,
     },    
     equipment: {
-    helmet: {timeAttack: 1500, level: 1, upgradeLevel: 1, name: "Hełm"},
-    armor: {dodgeChance: 1, level: 1, upgradeLevel: 1, name: "Zbroja"},
-    weapon: {critChance: 1, level: 1, upgradeLevel: 1, name: "Broń"},
-    ringAttack: {doubleAttackChance: 1, level: 1, upgradeLevel: 1, name: "Pierścień Ataku"},
-    ringDefense: {counterChance: 1, level: 1, upgradeLevel: 1, name: "Pierścień Obrony"},
-    accessory: {regen: 10, level: 1, upgradeLevel: 1, name: "Akcesorium"}
+    helmet: {timeAttack: 1500, level: 1, upgradeLevel:0, name: "Hełm"},
+    armor: {dodgeChance: 1, level: 1, upgradeLevel: 0, name: "Zbroja"},
+    weapon: {critChance: 1, level: 1, upgradeLevel: 0, name: "Broń"},
+    ringAttack: {doubleAttackChance: 1, level: 1, upgradeLevel: 0, name: "Pierścień Ataku"},
+    ringDefense: {counterChance: 1, level: 1, upgradeLevel: 0, name: "Pierścień Obrony"},
+    accessory: {regen: 10, level: 1, upgradeLevel: 0, name: "Akcesorium"}
     },
     level: 1,
     exp: 0,
-    expToNextLevel: 100,
+    expToNextLevel: 30,
     floorCount: 1,
     floor: 1,
     runBonuses: [],
@@ -72,10 +72,10 @@ function checkLevelUp() {
     if (player.exp >= player.expToNextLevel) {
         player.level++;
         player.exp -= player.expToNextLevel;
-        player.expToNextLevel += 35     
-        player.maxHp += 20;
+        player.expToNextLevel += 30     
+        player.maxHp += 5;
         player.hp = player.maxHp;
-        player.attack += 3;
+        player.attack += 1;
         notify("Poziom " + player.level + "! Twoje statystyki wzrosły!");
     }
 }

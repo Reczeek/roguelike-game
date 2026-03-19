@@ -89,7 +89,7 @@ function setupButtons() {
                 notify("Ulepszenie hełmu poprawione! (poziom " + player.meta.helmetLevel + ")");
                 loadScene("rebirth");
                 setupButtons();
-            } else { notify("Za mało 💀! Potrzebujesz " + cost + "."); }
+            } else { notify("Za mało 💀! Potrzebujesz " + formatNum(cost) + "."); }
         }
     }
 
@@ -103,7 +103,7 @@ function setupButtons() {
                 notify("Ulepszenie zbroi poprawione! (poziom " + player.meta.armorLevel + ")");
                 loadScene("rebirth");
                 setupButtons();
-            } else { notify("Za mało 💀! Potrzebujesz " + cost + "."); }
+            } else { notify("Za mało 💀! Potrzebujesz " + formatNum(cost) + "."); }
         }
     }
 
@@ -117,7 +117,7 @@ function setupButtons() {
                 notify("Ulepszenie broni poprawione! (poziom " + player.meta.weaponLevel + ")");
                 loadScene("rebirth");
                 setupButtons();
-            } else { notify("Za mało 💀! Potrzebujesz " + cost + "."); }
+            } else { notify("Za mało 💀! Potrzebujesz " + formatNum(cost) + "."); }
         }
     }
 
@@ -131,7 +131,7 @@ function setupButtons() {
                 notify("Ulepszenie pierścienia ataku poprawione! (poziom " + player.meta.ringAtkLevel + ")");
                 loadScene("rebirth");
                 setupButtons();
-            } else { notify("Za mało 💀! Potrzebujesz " + cost + "."); }
+            } else { notify("Za mało 💀! Potrzebujesz " + formatNum(cost) + "."); }
         }
     }
 
@@ -145,7 +145,7 @@ function setupButtons() {
                 notify("Ulepszenie pierścienia obrony poprawione! (poziom " + player.meta.ringDefLevel + ")");
                 loadScene("rebirth");
                 setupButtons();
-            } else { notify("Za mało 💀! Potrzebujesz " + cost + "."); }
+            } else { notify("Za mało 💀! Potrzebujesz " + formatNum(cost) + "."); }
         }
     }
 
@@ -159,7 +159,7 @@ function setupButtons() {
                 notify("Ulepszenie akcesorium poprawione! (poziom " + player.meta.accessoryLevel + ")");
                 loadScene("rebirth");
                 setupButtons();
-            } else { notify("Za mało 💀! Potrzebujesz " + cost + "."); }
+            } else { notify("Za mało 💀! Potrzebujesz " + formatNum(cost) + "."); }
         }
     }
 
@@ -173,7 +173,7 @@ function setupButtons() {
                 notify("+1 💀 z bossa! (poziom " + player.meta.soulMultLevel + ")");
                 loadScene("rebirth");
                 setupButtons();
-            } else { notify("Za mało 💀! Potrzebujesz " + cost + "."); }
+            } else { notify("Za mało 💀! Potrzebujesz " + formatNum(cost) + "."); }
         }
     }
 
@@ -221,7 +221,7 @@ function setupButtons() {
                 notify("Siekiera ulepszona! (poziom " + player.mine.axeLevel + ") | +" + axeBonus + " 🪵/klik");
                 loadScene("mine_upgrade");
                 setupButtons();
-            } else { notify("Za mało 🪙! Potrzebujesz " + cost + "🪙"); }
+            } else { notify("Za mało 💰! Potrzebujesz " + formatNum(cost) + "💰"); }
         }
     }
 
@@ -234,10 +234,10 @@ function setupButtons() {
                 const bonus = treeBonus[player.mine.treeLevel];
                 player.mine.woodPerClick += bonus;
                 player.mine.treeLevel++;
-                notify("Drzewo ulepszone! (poziom " + player.mine.treeLevel + ") | +" + bonus + " 🪵/klik");
+                notify("Drzewo ulepszone! (poziom " + player.mine.treeLevel + ") | +" + formatNum(bonus) + " 🪵/klik");
                 loadScene("mine_upgrade");
                 setupButtons();
-            } else { notify("Za mało 🪙! Potrzebujesz " + cost + "🪙"); }
+            } else { notify("Za mało 💰! Potrzebujesz " + formatNum(cost) + "💰"); }
         }
     }
 
@@ -249,10 +249,10 @@ function setupButtons() {
                 player.gold -= nextStorage.cost;
                 player.mine.storageLevel++;
                 player.mine.maxWood = nextStorage.capacity;
-                notify("Magazyn ulepszony! Pojemność: " + nextStorage.capacity);
+                notify("Magazyn ulepszony! Pojemność: " + formatNum(nextStorage.capacity));
                 loadScene("mine_upgrade");
                 setupButtons();
-            } else { notify("Za mało 🪙! Potrzebujesz " + nextStorage.cost + "🪙"); }
+            } else { notify("Za mało 💰! Potrzebujesz " + formatNum(nextStorage.cost) + "💰"); }
         }
     }
 }
@@ -285,5 +285,6 @@ function doRebirth() {
     setupButtons();
 }
 
+startLumberjacks();
 loadScene("explore");
 setupButtons();

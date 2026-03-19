@@ -3,10 +3,10 @@ const scenes = {
         scene.innerHTML = 
             "<h1>Eksploracja</h1>"
             + "<div id='stats'>"
-                + "❤️: " + player.hp + "/" + player.maxHp 
+                + "❤️: " + formatNum(player.hp) + "/" + formatNum(player.maxHp)
                 + " | ⭐ " + player.level 
-                + " | ✨ " + player.exp + "/" + player.expToNextLevel
-                + " | 🪙 " + player.gold
+                + " | ✨ " + formatNum(player.exp) + "/" + formatNum(player.expToNextLevel)
+                + " | 💰: " + formatNum(player.gold)
                 + " | 💀 " + player.souls
                 + " | 🏰 " + player.floor
                 + " | 🚪 " + player.floorCount + "/8"
@@ -20,14 +20,14 @@ const scenes = {
 
     upgrade: function() {
         let html = "<h1>Ulepszalnia</h1>"
-            + "<p>🪙 " + player.gold + "</p>";
+            + "<p>💰 " + formatNum(player.gold) + "</p>";
         
         for (const slot in player.equipment) {
             const item = player.equipment[slot];
             if (item) {
                 const cost = (item.upgradeLevel + 1) * 20;
                 html += "<p>" + item.name + " (lvl " + item.upgradeLevel + ")"
-                    + " <button onclick='upgradeItem(\"" + slot + "\")'>Ulepsz (" + cost + "g)</button></p>";
+                    + " <button onclick='upgradeItem(\"" + slot + "\")'>Ulepsz (" + formatNum(cost) + "g)</button></p>";
             }
         }
         
@@ -43,12 +43,12 @@ const scenes = {
         scene.innerHTML = 
             "<h1>Ekwipunek</h1>"
             + "<div id='slots'>"
-            + "<div class='slot'>🪖 Hełm<br>Level: " + player.equipment.helmet.level + "<br>Szybkość ataku: " + player.equipment.helmet.timeAttack / 1000 + "s<br><button onclick='upgradeItem(\"helmet\")'>Ulepsz (" + player.equipment.helmet.upgradeLevel * 20 + "g)</button></div>"
-            + "<div class='slot'>🛡️ Zbroja<br>Level: " + player.equipment.armor.level + "<br>Unik: " + player.equipment.armor.dodgeChance + "%<br><button onclick='upgradeItem(\"armor\")'>Ulepsz (" + player.equipment.armor.upgradeLevel * 20 + "g)</button></div>"
-            + "<div class='slot'>⚔️ Broń<br>Level: " + player.equipment.weapon.level + "<br>Krytyk: " + player.equipment.weapon.critChance + "%<br><button onclick='upgradeItem(\"weapon\")'>Ulepsz (" + player.equipment.weapon.upgradeLevel * 20 + "g)</button></div>"
-            + "<div class='slot'>💍 Pierścień Ataku<br>Level: " + player.equipment.ringAttack.level + "<br>Podwójny atak: " + player.equipment.ringAttack.doubleAttackChance + "%<br><button onclick='upgradeItem(\"ringAttack\")'>Ulepsz (" + player.equipment.ringAttack.upgradeLevel * 20 + "g)</button></div>"
-            + "<div class='slot'>🔰 Pierścień Obrony<br>Level: " + player.equipment.ringDefense.level + "<br>Kontratak: " + player.equipment.ringDefense.counterChance + "%<br><button onclick='upgradeItem(\"ringDefense\")'>Ulepsz (" + player.equipment.ringDefense.upgradeLevel * 20 + "g)</button></div>"
-            + "<div class='slot'>🔮 Akcesorium<br>Level: " + player.equipment.accessory.level + "<br>Regeneracja: " + player.equipment.accessory.regen + " HP/s<br><button onclick='upgradeItem(\"accessory\")'>Ulepsz (" + player.equipment.accessory.upgradeLevel * 20 + "g)</button></div>"
+            + "<div class='slot'>🪖 Hełm<br>Level: " + player.equipment.helmet.level + "<br>Szybkość ataku: " + player.equipment.helmet.timeAttack / 1000 + "s<br><button onclick='upgradeItem(\"helmet\")'>Ulepsz (" + formatNum(upgradeCosts[player.equipment.helmet.upgradeLevel]) + "🌲)</button></div>"
+            + "<div class='slot'>🛡️ Zbroja<br>Level: " + player.equipment.armor.level + "<br>Unik: " + player.equipment.armor.dodgeChance + "%<br><button onclick='upgradeItem(\"armor\")'>Ulepsz (" + formatNum(upgradeCosts[player.equipment.armor.upgradeLevel]) + "🌲)</button></div>"
+            + "<div class='slot'>⚔️ Broń<br>Level: " + player.equipment.weapon.level + "<br>Krytyk: " + player.equipment.weapon.critChance + "%<br><button onclick='upgradeItem(\"weapon\")'>Ulepsz (" + formatNum(upgradeCosts[player.equipment.weapon.upgradeLevel]) + "🌲)</button></div>"
+            + "<div class='slot'>💍 Pierścień Ataku<br>Level: " + player.equipment.ringAttack.level + "<br>Podwójny atak: " + player.equipment.ringAttack.doubleAttackChance + "%<br><button onclick='upgradeItem(\"ringAttack\")'>Ulepsz (" + formatNum(upgradeCosts[player.equipment.ringAttack.upgradeLevel]) + "🌲)</button></div>"
+            + "<div class='slot'>🔰 Pierścień Obrony<br>Level: " + player.equipment.ringDefense.level + "<br>Kontratak: " + player.equipment.ringDefense.counterChance + "%<br><button onclick='upgradeItem(\"ringDefense\")'>Ulepsz (" + formatNum(upgradeCosts[player.equipment.ringDefense.upgradeLevel]) + "🌲)</button></div>"
+            + "<div class='slot'>🔮 Akcesorium<br>Level: " + player.equipment.accessory.level + "<br>Regeneracja: " + player.equipment.accessory.regen + " HP/s<br><button onclick='upgradeItem(\"accessory\")'>Ulepsz (" + formatNum(upgradeCosts[player.equipment.accessory.upgradeLevel]) + "🌲)</button></div>"
             + "</div>"
             + "<button id='btn-explore'>Wróć</button>";
     },
@@ -71,37 +71,45 @@ const scenes = {
             + "<button id='btn-explore'>Wróć</button>";
     },
 
-
     mine: function() {
-    const treeImages = ['assets/images/young_tree.png', 'assets/images/tree_2.png', 'assets/images/bigtree.png'];
-    scene.innerHTML =
-        "<h1>Kopalnia</h1>"
-        + "<p>🪵 " + player.wood + " / " + player.mine.maxWood + "</p>"
-        + "<img id='img-tree' src='" + treeImages[player.mine.treeLevel] + "' style='width:900px;height:900px;object-fit:contain;cursor:pointer;'>"
-        + "<button id='btn-mine-lumberjacks'>Drwale</button>"
-        + "<button id='btn-mine-upgrade'>Ulepszenia</button>"
-        + "<button id='btn-explore'>Wróć</button>";
-},
+        const treeImages = ['assets/images/young_tree.png', 'assets/images/tree_2.png', 'assets/images/bigtree.png'];
+        scene.innerHTML =
+            "<h1>Kopalnia</h1>"
+            + "<p>🌲 " + formatNum(player.wood) + " / " + formatNum(player.mine.maxWood) + "</p>"
+            + "<img id='img-tree' src='" + treeImages[player.mine.treeLevel] + "' style='width:900px;height:900px;object-fit:contain;cursor:pointer;'>"
+            + "<button id='btn-mine-lumberjacks'>Drwale</button>"
+            + "<button id='btn-mine-upgrade'>Ulepszenia</button>"
+            + "<button id='btn-explore'>Wróć</button>";
+    },
 
     mine_upgrade: function() {
-    const axeCost = axeCosts[player.mine.axeLevel] || "MAX";
-    const treeCost = treeCosts[player.mine.treeLevel] || "MAX";
-    const nextStorage = storageLevels[player.mine.storageLevel + 1];
-    scene.innerHTML =
-        "<h1>Ulepszenia Kopalni</h1>"
-        + "<p>🪙 " + player.gold + "</p>"
-        + "<p>Siekiera poziom: " + player.mine.axeLevel + " | 🪵 za klik: " + player.mine.woodPerClick + "</p>"
-        + "<button id='btn-upgrade-axe'>Ulepsz siekierę (" + axeCost + "🪙)</button>"
-        + "<p>Drzewo poziom: " + player.mine.treeLevel + "</p>"
-        + "<button id='btn-upgrade-tree'>Ulepsz drzewo (" + treeCost + "🪙)</button>"
-        + "<p>Magazyn poziom: " + player.mine.storageLevel + " | Pojemność: " + player.mine.maxWood + "</p>"
-        + (nextStorage ? "<button id='btn-upgrade-storage'>Ulepsz magazyn (" + nextStorage.cost + "🪙)</button>" : "<p>Magazyn MAX</p>")
-        + "<button id='btn-mine'>Wróć</button>";
-},
+        const axeCost = axeCosts[player.mine.axeLevel] !== undefined ? axeCosts[player.mine.axeLevel] : "MAX";
+        const treeCost = treeCosts[player.mine.treeLevel] !== undefined ? treeCosts[player.mine.treeLevel] : "MAX";
+        const nextStorage = storageLevels[player.mine.storageLevel + 1];
+        scene.innerHTML =
+            "<h1>Ulepszenia Kopalni</h1>"
+            + "<p>💰 " + formatNum(player.gold) + "</p>"
+            + "<p>Siekiera poziom: " + player.mine.axeLevel + " | 🌲 za klik: " + player.mine.woodPerClick + "</p>"
+            + "<button id='btn-upgrade-axe'>Ulepsz siekierę (" + (axeCost === "MAX" ? "MAX" : formatNum(axeCost)) + "💰)</button>"
+            + "<p>Drzewo poziom: " + player.mine.treeLevel + "</p>"
+            + "<button id='btn-upgrade-tree'>Ulepsz drzewo (" + (treeCost === "MAX" ? "MAX" : formatNum(treeCost)) + "💰)</button>"
+            + "<p>Magazyn poziom: " + player.mine.storageLevel + " | Pojemność: " + formatNum(player.mine.maxWood) + "</p>"
+            + (nextStorage ? "<button id='btn-upgrade-storage'>Ulepsz magazyn (" + formatNum(nextStorage.cost) + "💰)</button>" : "<p>Magazyn MAX</p>")
+            + "<button id='btn-mine'>Wróć</button>";
+    },
 
     mine_lumberjacks: function() {
-    scene.innerHTML =
-        "<h1>Drwale</h1>"
-        + "<button id='btn-mine'>Wróć</button>";
-}
+        let html = "<h1>Drwale</h1><p>💰 " + formatNum(player.gold) + "</p>";
+        player.mine.lumberjacks.forEach(function(lj, i) {
+            const data = lumberjackData[i];
+            if (lj.unlocked) {
+                html += "<p>" + lj.name + " | lvl " + lj.level + " | " + (data.woodPerSec * lj.level).toFixed(1) + " 🌲/s"
+                    + " <button onclick='upgradeLumberjack(" + i + ")'>Ulepsz (" + formatNum(data.levelCost * (lj.level + 1)) + "💰)</button></p>";
+            } else {
+                html += "<p>" + data.name + " 🔒 <button onclick='unlockLumberjack(" + i + ")'>Odblokuj (" + formatNum(data.unlockCost) + "💰)</button></p>";
+            }
+        });
+        html += "<button id='btn-mine'>Wróć</button>";
+        scene.innerHTML = html;
+    }
 }
